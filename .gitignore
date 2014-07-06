@@ -1,0 +1,7 @@
+*.pyc
+.ropeproject
+*~
+*.sqlite3
+*.csv
+nosync
+migrations
