@@ -1,6 +1,14 @@
-from crawler.models import SucheURL
+from django.contrib import admin
+from crawler.models import Rawdata,CrawlData
 
-#class SucheURLAdmin(admin.ModelAdmin):
-#    list_display = ['url']
-#admin.site.register(SucheURL,SucheURLAdmin)
+class RawDataAdmin(admin.ModelAdmin):
+    list_display = ['url','operated']
 
+admin.site.register(Rawdata,RawDataAdmin)
+
+
+
+class CrawlDataAdmin(admin.ModelAdmin):
+    list_display = ['url','uptodate']
+
+admin.site.register(CrawlData,CrawlDataAdmin)
