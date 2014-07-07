@@ -1,3 +1,6 @@
-from django.contrib import admin
+from crawler.models import SucheURL
 
-# Register your models here.
+#class SucheURLAdmin(admin.ModelAdmin):
+#    list_display = ['url']
+#admin.site.register(SucheURL,SucheURLAdmin)
+
