@@ -6,7 +6,7 @@ Copyright (c) 2014 by anup pokhrel
 from django.db import models
 from django.utils import timezone
 from indexer.models import SucheURL
-import datetime
+from datetime import datetime, timedelta
 import urllib3
 
 
@@ -39,7 +39,11 @@ class Rawdata(models.Model):
         for link in soup.find_all('a'):
             filteredurl = SucheURL.filterURL(urljoin(self.url.url,link.get('href')))
             if SucheURL.isvalid(filteredurl): # check if it is a valid URL
-                newurl = SucheURL.objects.get_or_create(url = filteredurl)
+                newurl,created = SucheURL.objects.get_or_create(url = filteredurl)
+                if created:
+                    #create the crawl record for the newly generated url
+                    newdata = CrawlData(url = newurl)
+                    newdata.save()
                 urls.append(filteredurl)
         return '<br/>'.join(urls)
 
@@ -50,8 +54,8 @@ class CrawlData(models.Model):
     '''
     url = models.OneToOneField(SucheURL)
 
-    last_crawl = models.DateTimeField()
-    next_crawl = models.DateTimeField()
+    last_crawl = models.DateTimeField(default = timezone.now())
+    next_crawl = models.DateTimeField(default = timezone.now())
 
     #uptodate represent if the website is up to date
     def uptodate(self):
@@ -77,7 +81,7 @@ class CrawlData(models.Model):
             pass # error occured
         #set next update after 10 days. We can surely set it to more logical pattern like
         # crawl frequently for fast changing websites. But for now, set it fixed to 10 days
-        self.last_crawl = datetime.datetime.now()
-        self.next_crawl = datetime.datetime.now() + datetime.timedelta(days=10)
+        self.last_crawl = timezone.now()
+        self.next_crawl = timezone.now() + timedelta(days=10)
         self.save(force_update = True)
         return crawled
