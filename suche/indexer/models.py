@@ -40,7 +40,7 @@ class SucheURL(models.Model):
         filterurl removes the unnecessary parameters from the URL. 
         Get parameters are removed, javascript hashes are removed, 
         '''
-        from urllib3.util import urlparse
+        from urllib.parse import urlparse
         o = urlparse(url)
         url_without_query_string = o.scheme + "://" + o.netloc + o.path
         return url_without_query_string

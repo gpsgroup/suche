@@ -31,6 +31,7 @@ class Rawdata(models.Model):
         '''
 
         from bs4 import BeautifulSoup, SoupStrainer
+        from urllib.parse import urljoin
         soup = BeautifulSoup(self.new_data)
 
         #extract URLs and operate on them
