@@ -22,6 +22,8 @@ def autocomplete(request):
     '''
     Auto complete for suche
     auto completes the user entered sentence
+    to test this view,
+    http://127.0.0.1:8000/autocomplete?callback=autocomplete&search=a
     '''
     import json
     
