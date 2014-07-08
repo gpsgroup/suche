@@ -18,7 +18,7 @@ class ngramModel(models.Model):
     class Meta:
         abstract = True
 
-class TwoGram(ngramModel):
+class BiGram(ngramModel):
     word1 = models.CharField(max_length = 50)
     word2 = models.CharField(max_length = 50)
     count = models.IntegerField(default = 0)
