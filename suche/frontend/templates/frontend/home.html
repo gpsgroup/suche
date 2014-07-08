@@ -13,7 +13,7 @@
                 <div class="row" id="the-basics">
                     <div class="input-group">
                     <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
-                    <input type="text" class="form-control" placeholder="Search Query" id="tags" style="height:50px"/>
+                    <input type="text" class="form-control" placeholder="Search Query" id="search" name = "search" style="height:50px" onkeyup = "startcompletion()"/>
                     <div class="input-group-addon"><input type="submit" value="Search" class="btn btn-primary" style="width:100px"></div>
                 </div>
                 </div>
@@ -25,4 +25,26 @@
     </div>
     </div>
 
+<script>
+function startcompletion() {
+    var search = $('#search').val()
+    var data = {
+        search: search
+    };
+    $.ajax({
+        url: '/autocomplete',
+        data: data,
+        dataType: 'jsonp',
+        jsonp: 'callback',
+        jsonpCallback: 'autocomplete'
+    });
+}
+
+
+function autocomplete(data) {
+    $( "#search" ).autocomplete ({
+        source: data
+    });
+}
+</script>
 {% endblock body %}
