@@ -7,21 +7,21 @@
         <div class="container text-center">
         <!--logo -->
             <div class="row text-center">
-                <div class="col-md-12" style="padding-top:10%">
-                <img  src="{% static 'images/logo.png' %}" width=700px/>       
+{% if not query %}                <div class="col-md-12" style="padding-top:10%" id="topspace"></div>{% endif %}
+                <div>
+                <img  src="{% static 'images/logo.png' %}" width="700px"/>       
                 </div>
-                <div class="row" id="the-basics">
+                <form class="row" id="search_form" action="/" method="GET">
                     <div class="input-group">
-                    <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
-                    <input type="text" class="form-control" placeholder="Search Query" id="search" name = "search" style="height:50px" onkeyup = "startcompletion()"/>
-                    <div class="input-group-addon"><input type="submit" value="Search" class="btn btn-primary" style="width:100px"></div>
-                </div>
-                </div>
-                <div class="row">
-                    
-                </div>
+                      <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+                      <input type="text" class="form-control" placeholder="Search Query" id="search" name = "q" style="height:50px" onkeyup = "startcompletion()" value="{{ query }}"/>
+                      <div class="input-group-addon"><input type="submit" value="Search" class="btn btn-primary" style="width:100px"></div>
+                    </div>
+                </form>
+
+{% if query %}<br/><br/><p>Showing result for &quot;<strong>{{ query }}</strong>&quot;</p>{% endif %}
+
             </div>
-    
     </div>
     </div>
 
@@ -46,5 +46,14 @@ function autocomplete(data) {
         source: data
     });
 }
+
+$(function() {
+$('#search_form').submit(function(event) {
+    // we have to load the search result with ajax later
+//this function will slide the division "topspace" up and 
+//display the result.
+});
+});
+
 </script>
 {% endblock body %}

@@ -13,8 +13,11 @@ def home(request):
 
     template = loader.get_template('frontend/home.html')
 
+    query = request.REQUEST.get('q','')
+
     context = RequestContext(request, {
-        'title': "Suche"
+        'title': "Suche",
+        'query' : query,
     })
     return HttpResponse(template.render(context))
 
