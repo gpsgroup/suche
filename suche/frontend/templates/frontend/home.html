@@ -1,0 +1,28 @@
+{% extends "pages/__base.html" %}
+{% load staticfiles %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="container text-center">
+        <!--logo -->
+            <div class="row text-center">
+                <div class="col-md-12" style="padding-top:10%">
+                <img  src="{% static 'images/logo.png' %}" width=700px/>       
+                </div>
+                <div class="row" id="the-basics">
+                    <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+                    <input type="text" class="form-control" placeholder="Search Query" id="tags" style="height:50px"/>
+                    <div class="input-group-addon"><input type="submit" value="Search" class="btn btn-primary" style="width:100px"></div>
+                </div>
+                </div>
+                <div class="row">
+                    
+                </div>
+            </div>
+    
+    </div>
+    </div>
+
+{% endblock body %}
