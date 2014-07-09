@@ -42,5 +42,11 @@ class CompletionCache(models.Model):
     table.
     '''
     query = models.CharField(max_length = 200)
-    count = models.IntegerField(default = 1)
+    count = models.IntegerField(default = 0)
     last_used = models.DateTimeField(auto_now = True, auto_now_add = True)
+
+    def flush_cache():
+        '''
+        this function will remove queries that are last used before 24 hours.
+        '''
+        pass

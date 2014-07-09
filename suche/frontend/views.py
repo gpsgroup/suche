@@ -4,7 +4,7 @@ from django.template import RequestContext, loader
 from django.core.exceptions import ObjectDoesNotExist
 from django import forms
 from django.contrib import messages
-
+from linguistic.autocompletion import AutoCompletion
 
 def home(request):
     '''
@@ -14,6 +14,9 @@ def home(request):
     template = loader.get_template('frontend/home.html')
 
     query = request.REQUEST.get('q','')
+    if query:
+        # if the user entered some text, record it
+        AutoCompletion.register_query(query)
 
     context = RequestContext(request, {
         'title': "Suche",
@@ -29,20 +32,8 @@ def autocomplete(request):
     http://127.0.0.1:8000/autocomplete?callback=autocomplete&search=a
     '''
     import json
-    
-    words = [
-        "apple",
-        "mango",
-        "orange",
-        "amanada",
-        "anup",
-        "amy",
-        ]
     completions = []
     if 'search' in request.REQUEST:
-        searchkey = request.REQUEST['search']
-        for word in words:
-            if word.startswith(searchkey):
-                completions.append(word)
+        completions = AutoCompletion.get_completions(request.REQUEST['search'])
     resp = request.REQUEST['callback']+'('+json.dumps(completions)+');'
     return HttpResponse(resp,content_type = 'application/json')
