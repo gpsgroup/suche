@@ -24,12 +24,18 @@ class BiGram(ngramModel):
     count = models.IntegerField(default = 0)
     perplexity = models.FloatField(default = 0)
 
+    def __str__(self):
+        return self.word1+" | "+self.word2
+
 class TriGram(ngramModel):
     word1 = models.CharField(max_length = 50)
     word2 = models.CharField(max_length = 50)
     word3 = models.CharField(max_length = 50)
-    count = models.IntegerField(default = 1)
+    count = models.IntegerField(default = 0)
     perplexity = models.FloatField(default = 0)
+    def __str__(self):
+        return self.word1+" | "+self.word2+" | "+self.word3
+
 
 class CompletionCache(models.Model):
     '''
@@ -50,3 +56,5 @@ class CompletionCache(models.Model):
         this function will remove queries that are last used before 24 hours.
         '''
         pass
+    def __str__(self):
+        return self.query

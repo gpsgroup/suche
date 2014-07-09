@@ -19,7 +19,7 @@
                     </div>
                 </form>
 
-{% if query %}<br/><br/><p>Showing result for &quot;<strong>{{ query }}</strong>&quot;</p>{% endif %}
+{% if query %}<br/><br/><p>Showing result for &quot;<strong>{{ correctedquery }} </strong> &quot;{% if correctedquery != query  %} Show instead for &quot;<strong> {{ query }} {% endif %}</strong>&quot;</p>{% endif %}
 
             </div>
     </div>
