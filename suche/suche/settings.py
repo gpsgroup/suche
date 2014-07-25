@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'crawler',
     'indexer',
     'staticpages',
+    'django_extensions',
     'frontend',
     'linguistic',
     

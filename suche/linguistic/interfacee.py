@@ -1,54 +1,30 @@
 #an interface function repo for sending and receiving words to and from the spell checker
 #test.py contains demo usage
-import os
+from linguistic.models import SpellCache
+import time
 class DInterface:
- rfPath = "./intfr"
- wfPath = "./intfw"
  def __init__(self):
-  try:
-   os.mkfifo(self.wfPath)
-   os.mkfifo(self.rfPath)
-  except OSError:
-   pass
+  return
 #used to send word to the spell corrector
  def writeWord(self,wordd):
-  try:	
-   wp = open(self.wfPath, 'w')
-   wp.write(wordd)		
-   wp.close()
-   return True
-  except OSError:
-   pass
-   return False
+  readClass=SpellCache.objects.filter(req=wordd)[:1]
+  if(readClass.count()>0):  
+    return readClass[0].id  
+  #write to db the word that is to be sent    
+  saveWord=SpellCache(req=wordd,sol="")
+  saveWord.save()
+  return saveWord.id
+    
+   
 #used to receive word from the spell corrector receives 
- def readWord(self):
-  try:
-   rp = open(self.rfPath, 'r')
-   response = rp.read()
-   rp.close()
-   response=eval(response)
-   return response
-  except OSError:
-   pass
-   return False
+ def readWord(self,idIn):  
+  readClass=SpellCache.objects.get(id=idIn)
+  while(not readClass.sol):
+   readClass=SpellCache.objects.get(id=idIn)
+   time.sleep(0.01)
+  return eval(str(readClass.sol))
 
-#used to send word from the spell corrector
- def spWriteWord(self,wordd):
-  try:	
-   wp = open(self.rfPath, 'w')
-   wp.write(wordd)		
-   wp.close()
-   return True
-  except OSError:
-   pass
-   return False
-#used to receive word to the spell corrector
- def spReadWord(self):
-  try:
-   rp = open(self.wfPath, 'r')
-   response = rp.read()
-   rp.close()		
-   return response
-  except OSError:
-   pass
-   return False
+
+
+   
+  

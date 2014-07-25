@@ -1,8 +1,9 @@
 '''
 query handler for suche search engine
 '''
-from linguistic.models import BiGram, TriGram, CompletionCache
-from interfacee import *
+
+from linguistic.models import BiGram, TriGram, CompletionCache,SpellCache
+from linguistic.interfacee import *
 
 class QueryHandler:
     '''
@@ -26,8 +27,10 @@ class QueryHandler:
         newwords = []
         interf = DInterface()
         for word in words:
-            interf.writeWord(word)
-            resp = interf.readWord()
+            idd=interf.writeWord(word)
+            #newwords.append(str(idd))
+            resp = interf.readWord(int(idd))
+           
             for key,value in resp.items():
                 newwords.append(key)
                 break
