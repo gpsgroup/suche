@@ -56,6 +56,9 @@ class CrawlData(models.Model):
 
     last_crawl = models.DateTimeField(default = timezone.now())
     next_crawl = models.DateTimeField(default = timezone.now())
+    timeDiff=models.PositiveIntegerField(default=86400)
+    
+        
 
     #uptodate represent if the website is up to date
     def uptodate(self):
@@ -63,8 +66,44 @@ class CrawlData(models.Model):
 
     uptodate.boolean = True
     uptodate.short_description = 'URL Up to Date?'
-
-
+    
+    #check if content has changed, pass rawdata object
+    def isChanged(self,rawdata):
+        if rawdata.old_data==rawdata.new_data:
+            return False
+        else:
+            return True
+    
+    #compute next time
+    '''
+        timeCalcType =
+        0=>HTTP 200
+        1=>Others
+    '''
+    def computeTimeDiff(self,rawdata,timeCalcType):   
+        #calculate the next timeDiff
+        if(timeCalcType==0):            
+            if self.isChanged(rawdata):
+                timeDiffCalc=int(self.timeDiff/2)
+                if(timeDiffCalc<3600):
+                    self.timeDiff=3600
+                else:
+                    self.timeDiff=timeDiffCalc
+            else:
+                timeDiffCalc=self.timeDiff*2
+                if(timeDiffCalc>2592000):#greater than a month
+                    self.timeDiff=2592000
+                else:
+                    self.timeDiff=timeDiffCalc
+                    
+        elif(timeCalcType==1):
+            timeDiffCalc=self.timeDiff*2
+            if(timeDiffCalc>2592000):#greater than a month
+                self.timeDiff=2592000
+            else:
+                self.timeDiff=timeDiffCalc
+         
+    
     #crawl the web url
     def crawl(self):
         http = urllib3.PoolManager()
@@ -74,14 +113,27 @@ class CrawlData(models.Model):
             if r.status == 200:
                 #see if the rawdata table has row for the current URL. If no, create one
                 rawdata , created = Rawdata.objects.get_or_create(url = self.url)
+                if not created:
+                    rawdata.old_data=rawdata.new_data
+                else:
+                    rawdata.old_data='First Time'
+                    
                 rawdata.new_data = r.data
                 rawdata.save()
                 crawled = True
+                #set timeDiff to new value
+                self.computeTimeDiff(rawdata,0)
+                self.last_crawl = timezone.now()
+                self.next_crawl = timezone.now() + timedelta(seconds=self.timeDiff)
+                
+            else:
+                self.last_crawl = timezone.now()
+                self.computeTimeDiff(rawdata,1)
+                self.next_crawl = timezone.now() + timedelta(seconds=self.timeDiff)
+
         except:
             pass # error occured
         #set next update after 10 days. We can surely set it to more logical pattern like
         # crawl frequently for fast changing websites. But for now, set it fixed to 10 days
-        self.last_crawl = timezone.now()
-        self.next_crawl = timezone.now() + timedelta(days=10)
         self.save(force_update = True)
         return crawled
