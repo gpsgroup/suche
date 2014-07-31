@@ -1,7 +1,9 @@
 from scripts.spellClass import *
 import time
+import os
+
 def run():
- spCrct=SpellChecker('big.txt')
+ spCrct=SpellChecker(os.path.join(os.path.dirname(os.path.realpath(__file__)),'big.txt'))
  
  while 1: 
   iptexts=spCrct.spReadWord()
