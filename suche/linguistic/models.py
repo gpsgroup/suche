@@ -15,21 +15,13 @@ class ngramModel(models.Model):
     '''
     ngrammodel is the base class for 2gram and 3gram models
     '''
-    def __unicode__(self):
-        return self.twitter_handle
     class Meta:
-        app_label = 'appname'
         abstract= True
     
 
 class Word(models.Model):
     word = models.CharField(max_length = 50)
     count = models.IntegerField(default = 0)
-    def __unicode__(self):
-        return self.twitter_handle
-    class Meta:
-        app_label = 'linguistic'
-    
 
 class BiGram(ngramModel):
     word1 = models.CharField(max_length = 50)
@@ -39,10 +31,6 @@ class BiGram(ngramModel):
 
     def __str__(self):
         return self.word1+" | "+self.word2
-    def __unicode__(self):
-        return self.twitter_handle
-    class Meta:
-        app_label = 'linguistic'
     
 
 class TriGram(ngramModel):
@@ -53,11 +41,6 @@ class TriGram(ngramModel):
     perplexity = models.FloatField(default = 0)
     def __str__(self):
         return self.word1+" | "+self.word2+" | "+self.word3
-    def __unicode__(self):
-        return self.twitter_handle
-    class Meta:
-        app_label = 'linguistic'
-    
 
 
 class CompletionCache(models.Model):
@@ -81,11 +64,6 @@ class CompletionCache(models.Model):
         pass
     def __str__(self):
         return self.query
-    def __unicode__(self):
-        return self.twitter_handle
-    class Meta:
-        app_label = 'linguistic'
-    
 
 class SpellCache(models.Model):
     '''
@@ -93,8 +71,3 @@ class SpellCache(models.Model):
     '''
     req=models.CharField(max_length=256)
     sol=models.CharField(max_length=512)
-    def __unicode__(self):
-        return self.twitter_handle
-    class Meta:
-        app_label = 'linguistic'
-    

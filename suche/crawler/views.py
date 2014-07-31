@@ -8,7 +8,12 @@ import urllib3
 from django.utils import timezone
 
 def index(request):
-    return HttpResponse("Crawler index page")
+    template = loader.get_template('crawler/index.html')
+
+    context = RequestContext(request, {
+        'title': "Suche : Crawler Admin Home",
+    })
+    return HttpResponse(template.render(context))
 
 def CrawlPage(request):
     ''' this is used to crawl a single page. This function searches

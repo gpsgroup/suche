@@ -8,7 +8,7 @@ class SpellChecker:
  
  def __init__(self,dictFile): 
   self.dictF=dictFile 
-  self.NWORDS=self.train(self.words(open("/"+dictFile).read()))
+  self.NWORDS=self.train(self.words(open(dictFile).read()))
   print("Inited")
   
  def words(self,text): return re.findall('[a-z]+', text.lower())
