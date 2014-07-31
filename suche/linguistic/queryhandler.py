@@ -30,10 +30,8 @@ class QueryHandler:
             idd=interf.writeWord(word)
             #newwords.append(str(idd))
             resp = interf.readWord(int(idd))
-           
-            for key,value in resp.items():
-                newwords.append(key)
-                break
+            key,value=resp.popitem()
+            newwords.append(key)
         return ' '.join(newwords)
 
     def register_query(uquery):

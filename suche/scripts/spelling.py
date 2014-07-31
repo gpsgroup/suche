@@ -8,7 +8,6 @@ def run():
   if(iptexts):
    for iptext in iptexts:
     varr=spCrct.correct(iptext.req)
-    iptext.sol=str(varr)
+    iptext.sol=varr
     iptext.save()
-  time.sleep(0.1) 
 
