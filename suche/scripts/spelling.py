@@ -1,4 +1,4 @@
-from scripts.spellClass import *
+from scripts.SpellClass import *
 import time
 import os
 
