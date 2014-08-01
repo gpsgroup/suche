@@ -1,4 +1,4 @@
-from scripts.spellClass import *
+from scripts.SpellClass import *
 import time
 import os
 
@@ -10,7 +10,6 @@ def run():
   if(iptexts):
    for iptext in iptexts:
     varr=spCrct.correct(iptext.req)
-    iptext.sol=str(varr)
+    iptext.sol=varr
     iptext.save()
-  time.sleep(0.1) 
 

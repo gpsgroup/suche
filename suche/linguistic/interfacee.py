@@ -21,7 +21,6 @@ class DInterface:
   readClass=SpellCache.objects.get(id=idIn)
   while(not readClass.sol):
    readClass=SpellCache.objects.get(id=idIn)
-   time.sleep(0.01)
   return eval(str(readClass.sol))
 
 

@@ -76,7 +76,7 @@ DATABASES = {
         'NAME': 'suche',
         'USER': 'postgres',
         'PASSWORD': 'kathmandu',
-        'HOST': ''
+        'HOST': 'localhost'
     }
 }
 

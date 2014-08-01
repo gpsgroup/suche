@@ -8,15 +8,21 @@ class SpellChecker:
  
  def __init__(self,dictFile): 
   self.dictF=dictFile 
-  self.NWORDS=self.train(self.words(open(dictFile).read()))
+  self.NWORDS=self.train()
   print("Inited")
   
  def words(self,text): return re.findall('[a-z]+', text.lower())
  
- def train(self,features):
-  model=collections.defaultdict(lambda: 1)
+ def train(self,features=""):
+  '''model=collections.defaultdict(lambda: 1)
   for f in features:
    model[f]+=1
+  return model
+  '''
+  model=collections.defaultdict(lambda: 1)
+  dictFromDB=Word.objects.all()
+  for a in dictFromDB:
+    model[a.word]=a.count
   return model
 
  def edits1(self,word):
