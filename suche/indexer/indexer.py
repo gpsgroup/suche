@@ -3,6 +3,8 @@ indexer for suche Search Engine
 copyright (c) 2014 Suche
 '''
 from indexer.models import SucheURL
+from indexer.htmlparser import HTMLParser
+
 class Indexer:
     def set_raw(self,raw):
         '''
@@ -18,22 +20,19 @@ class Indexer:
         the new data to old data and set oeprated to true
         '''
 
-        from bs4 import BeautifulSoup, SoupStrainer
-        from urllib.parse import urljoin
-        soup = BeautifulSoup(self.raw.new_data)
+        parser = HTMLParser(self.raw.new_data, self.raw.url)
 
-        #extract URLs and operate on them
+        parser.parse()
+
+        #now extract information from the parse and update database
         urls = []
-        for link in soup.find_all('a'):
-            filteredurl = SucheURL.filterURL(urljoin(self.raw.url.url,link.get('href')))
-            if SucheURL.isvalid(filteredurl): # check if it is a valid URL
-                newurl,created = SucheURL.objects.get_or_create(url = filteredurl)
-                if created:
-                    #create the crawl record for the newly generated url
-                    newdata = CrawlData(url = newurl)
-                    newdata.save()
-                urls.append(filteredurl)
-        self.raw.operated = True
-        self.raw.save()
+        
+        for url,text in parser.get_links():
+            urls.append(text+"-"+url)
+            newurl,created = SucheURL.objects.get_or_create(url = url)
+            if created:
+                #create the crawl record for the newly generated url
+                newdata = CrawlData(url = newurl)
+                newdata.save()
         return '<br/>'.join(urls)
 

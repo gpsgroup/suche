@@ -34,7 +34,7 @@ class SucheURL(models.Model):
             return False
         #check other conditions
         return True
-    
+
     def filterURL(url):
         '''
         filterurl removes the unnecessary parameters from the URL. 
