@@ -8,7 +8,7 @@ from django.utils import timezone
 from indexer.models import SucheURL
 from datetime import datetime, timedelta
 import urllib3
-
+from indexer.indexer import Indexer
 
 
 class Rawdata(models.Model):
@@ -21,31 +21,6 @@ class Rawdata(models.Model):
     new_data = models.TextField(default = '', blank = True)
     old_data = models.TextField(default = '', blank = True)
     operated = models.BooleanField(default = False) # represent if the data has been already operated.
-
-    def operate(self):
-        '''
-        operate on the data. This will extract links, etc
-        First of all, we have to revert back the changes of previous website data for eg reduce the number 
-        of links, reduce word counts, etc. Then, we have to apply the changes due to new data. Finally, move 
-        the new data to old data and set oeprated to true
-        '''
-
-        from bs4 import BeautifulSoup, SoupStrainer
-        from urllib.parse import urljoin
-        soup = BeautifulSoup(self.new_data)
-
-        #extract URLs and operate on them
-        urls = []
-        for link in soup.find_all('a'):
-            filteredurl = SucheURL.filterURL(urljoin(self.url.url,link.get('href')))
-            if SucheURL.isvalid(filteredurl): # check if it is a valid URL
-                newurl,created = SucheURL.objects.get_or_create(url = filteredurl)
-                if created:
-                    #create the crawl record for the newly generated url
-                    newdata = CrawlData(url = newurl)
-                    newdata.save()
-                urls.append(filteredurl)
-        return '<br/>'.join(urls)
 
 class CrawlData(models.Model):
     '''
@@ -116,7 +91,7 @@ class CrawlData(models.Model):
                 if not created:
                     rawdata.old_data=rawdata.new_data
                 else:
-                    rawdata.old_data='First Time'
+                    rawdata.old_data=''
                     
                 rawdata.new_data = r.data
                 rawdata.save()

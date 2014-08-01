@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse,Http404
 from django.core.exceptions import ObjectDoesNotExist
 from crawler.models import CrawlData,Rawdata
+from indexer.indexer import Indexer
 from django.template import RequestContext, loader
 import datetime
 import urllib3
@@ -40,7 +41,9 @@ def OperateData(request):
     message = ''
     try:
         rawdata = Rawdata.objects.filter(operated = False)[0] # get data that has not been operated on yet
+        indxr = Indexer()
+        indxr.set_raw(rawdata)
+        urls = indxr.operate()
+        return HttpResponse("Finished processing "+urls)
     except IndexError:
         return HttpResponse("All Data have veen operated")
-    urls = rawdata.operate()
-    return HttpResponse("Finished processing "+urls)
