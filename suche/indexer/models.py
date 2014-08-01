@@ -44,3 +44,15 @@ class SucheURL(models.Model):
         o = urlparse(url)
         url_without_query_string = o.scheme + "://" + o.netloc + o.path
         return url_without_query_string
+
+class Link(models.Model):
+    '''
+    This class represents a link from one url to another url in the form of
+    anchor
+    '''
+    fromurl = models.ForeignKey(SucheURL, related_name = "link_origin")
+    tourl = models.ForeignKey(SucheURL, related_name = "link_destination")
+    text = models.TextField(default = '', max_length = 50) # allow 50 characters in anchor for now
+
+    def __str__(self):
+        return self.fromurl.url + " - "+self.tourl.url
