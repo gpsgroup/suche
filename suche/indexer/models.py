@@ -56,3 +56,12 @@ class Link(models.Model):
 
     def __str__(self):
         return self.fromurl.url + " - "+self.tourl.url
+
+class Word(models.Model):
+    '''
+    This word represents the word in the HTML documents
+    this is different from the linguistic word table as this
+    word contains list of words contained in any one of
+    the HTML document
+    '''
+    word = models.char_field(max_length = 50)

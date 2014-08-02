@@ -20,6 +20,11 @@ class ngramModel(models.Model):
     
 
 class Word(models.Model):
+    '''
+    this word table is used for spell correction and other purpose
+    It is initially populated with dictionary words
+    new words in user query are added to this table with time
+    '''
     word = models.CharField(max_length = 50)
     count = models.IntegerField(default = 0)
 
