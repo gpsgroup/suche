@@ -46,6 +46,12 @@ class Indexer:
 
         #now go on to create the links
         thisurl = SucheURL.objects.get(url = self.raw.url)
+        
+        # actually, we retrieve the old links, and compare them with the new links
+        # to leave the older links and delete or add new links only as needed
+        # but for now, we empty the table and add the links again
+        Link.objects.filter(fromurl = thisurl).delete()
+
         for url,text in filteredurls:
             desturl = SucheURL.objects.get(url = url)
 
@@ -56,5 +62,6 @@ class Indexer:
         # set the data as operated
         # self.raw.operated = True
         # self.raw.save()
-        return '<br/>'.join(urls)
+        urls =  '<br/>'.join(urls)
+        return urls + parser.get_info()
 
