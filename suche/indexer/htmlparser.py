@@ -9,6 +9,7 @@ from indexer.models import SucheURL
 import re
 import string
 from collections import defaultdict
+from math import log2
 
 class HTMLParser:
     def __init__(self,text,url):
@@ -66,7 +67,6 @@ class HTMLParser:
         for key in self.words.keys():
             self.wordinfo += key+' = '+str(self.words[key])+'<br/>'
         
-  
     def visible(element):
         '''
         represents if the HTML section is visible or not
@@ -76,6 +76,23 @@ class HTMLParser:
         elif re.match('<!--.*-->', str(element)):
             return False
         return True
+
+    def word_rank(self,word):
+        '''
+        gets the rank of any word in the document
+        The rank of any word is calculated as
+
+        rank = 10 * log2 ( wordcount + 1)
+
+        wordcount = count of the current word
+
+        if wordcount = 0, rank = 0
+        wordcount = 1, rank = 10
+        wordcount = 2, rank = 15
+        wordcount = 5, rank = 25
+        and so on
+        '''
+        return 10 * log2( self.words[word] + 1)
 
     def get_links(self):
         '''
