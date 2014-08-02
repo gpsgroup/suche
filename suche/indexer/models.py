@@ -64,4 +64,16 @@ class Word(models.Model):
     word contains list of words contained in any one of
     the HTML document
     '''
-    word = models.char_field(max_length = 50)
+    word = models.TextField(max_length = 50)
+
+class Result(models.Model):
+    '''
+    This stores the search result for a single word and single URL
+    '''
+    word = models.ForeignKey(Word)
+    url = models.ForeignKey(SucheURL)
+    wordrank = models.IntegerField(default = 0)
+    titlewordcount = models.IntegerField(default = 0)
+    linkswordcount = models.IntegerField(default = 0)
+    userrank = models.IntegerField(default = 0) # this depends on user activity
+    urlpoint = models.IntegerField(default = 0)
