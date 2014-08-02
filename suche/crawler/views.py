@@ -30,7 +30,7 @@ def CrawlPage(request):
     message = ''
 
     # try to get the web page from URL
-    message += crawldata.url.url+" is not currently indexed. Indexing it..."
+    message += crawldata.url.url+" is not currently crawled. Crawling it..."
 
     if not crawldata.crawl():
         message += '<font color=red>Error while retriving the web page</font><br/>' # classic HTML :D

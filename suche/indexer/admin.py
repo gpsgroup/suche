@@ -1,11 +1,18 @@
 from django.contrib import admin
-from indexer.models import SucheURL,Link
+from indexer.models import SucheURL,Link,Word,Result
 
 class SucheURLAdmin(admin.ModelAdmin):
     list_display = ['url']
 
 class LinkAdmin(admin.ModelAdmin):
     pass
+class WordAdmin(admin.ModelAdmin):
+    pass
+class ResultAdmin(admin.ModelAdmin):
+    pass
+
 admin.site.register(SucheURL,SucheURLAdmin)
 admin.site.register(Link,LinkAdmin)
+admin.site.register(Word,WordAdmin)
+admin.site.register(Result,ResultAdmin)
 

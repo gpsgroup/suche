@@ -2,7 +2,7 @@
 indexer for suche Search Engine
 copyright (c) 2014 Suche
 '''
-from indexer.models import SucheURL,Link
+from indexer.models import SucheURL,Link,Word
 from indexer.htmlparser import HTMLParser
 
 class Indexer:
@@ -24,6 +24,9 @@ class Indexer:
 
         parser.parse()
 
+        #TODO: parser will detect error in the HTML document. If the HTML
+        # is ill formed or less than certain length, ignore it.
+        
         #now extract information from the parse and update database
         urls = []
 
@@ -58,7 +61,10 @@ class Indexer:
             if desturl != thisurl:
                 link = Link(fromurl = thisurl, tourl = desturl, text = text)
                 link.save()
-        
+
+        #if any new words are found in the document, add them to the words table
+        for word in parser.get_word_dict().keys():
+            wordrow, created = Word.objects.get_or_create(word = word)
         # set the data as operated
         # self.raw.operated = True
         # self.raw.save()

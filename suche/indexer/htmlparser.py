@@ -52,11 +52,15 @@ class HTMLParser:
     
         #secondly , make a list of (word,count) tuples
         sentences = self.content.split('.')
+
         self.words = defaultdict(int)
+        self.wordcount = 0
+
         for sentence in sentences:
             for word in sentence.split(" "):
                 if len(word) >= 2:
                     self.words[word] += 1
+                    self.wordcount += 1 #total number of words
         #make a list of word information
         self.wordinfo = ''
         for key in self.words.keys():
@@ -78,8 +82,15 @@ class HTMLParser:
         Returns the list of links on the current document
         '''
         return self.links
+
     def get_content(self):
         return self.content
+
+    def get_word_dict(self):
+        return self.words
+
+    def get_word_count(self):
+        return self.wordcount
 
     def get_info(self):
         return '<br/><br/>'+self.wordinfo

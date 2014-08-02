@@ -66,6 +66,9 @@ class Word(models.Model):
     '''
     word = models.TextField(max_length = 50)
 
+    def __str__(self):
+        return self.word
+
 class Result(models.Model):
     '''
     This stores the search result for a single word and single URL
