@@ -92,7 +92,7 @@ class Indexer:
 
             #calculate the url point as
             # urlpoint = wordrank + pagerank of website + max(6 , No of words in title) + max(6, 2 * no of words in URL) + max( 20, linkswordcount / 10)
-            result.urlpoint = result.wordrank + max(6, result.titlewordcount) + max( 6, 2 * thisurl.url.count(word)) + max( 20, result.linkswordcount / 10)
+            result.urlpoint = result.wordrank + min(6, result.titlewordcount) + min( 6, 2 * thisurl.url.count(word)) + min( 20, result.linkswordcount / 10)
             
             #if there are not enough results for the word or if the current
             # URL is better than the previous URLs, save the result
