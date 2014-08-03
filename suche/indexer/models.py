@@ -4,6 +4,7 @@ copyright (c) 2014 by anup pokhrel
 '''
 
 from django.db import models
+from urllib.parse import urlparse
 
 class SucheURL(models.Model):
     '''
@@ -44,6 +45,14 @@ class SucheURL(models.Model):
         o = urlparse(url)
         url_without_query_string = o.scheme + "://" + o.netloc + o.path
         return url_without_query_string
+
+    def getDomain(self):
+        '''
+        returns the domain of the current URL
+        '''
+        o = urlparse(self.url)
+        domain = o.scheme + "://" + o.netloc
+        return domain
 
 class Link(models.Model):
     '''
