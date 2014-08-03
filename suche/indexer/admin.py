@@ -9,8 +9,9 @@ class LinkAdmin(admin.ModelAdmin):
 class WordAdmin(admin.ModelAdmin):
     pass
 class ResultAdmin(admin.ModelAdmin):
-    pass
-
+    list_display = ('word', 'url' , 'urlpoint')
+    search_fields = ['word__word']
+    
 admin.site.register(SucheURL,SucheURLAdmin)
 admin.site.register(Link,LinkAdmin)
 admin.site.register(Word,WordAdmin)
