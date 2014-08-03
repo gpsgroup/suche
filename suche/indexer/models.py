@@ -113,3 +113,6 @@ class Result(models.Model):
     linkswordcount = models.IntegerField(default = 0)
     userrank = models.IntegerField(default = 0) # this depends on user activity
     urlpoint = models.IntegerField(default = 0)
+
+    def __str__(self):
+        return self.word.word + ' - '+ self.url.url

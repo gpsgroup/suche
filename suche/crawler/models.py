@@ -8,7 +8,7 @@ from django.utils import timezone
 from indexer.models import SucheURL
 from datetime import datetime, timedelta
 import urllib3
-from indexer.indexer import Indexer
+
 
 
 class Rawdata(models.Model):

@@ -62,10 +62,14 @@ class HTMLParser:
                 if len(word) >= 2:
                     self.words[word] += 1
                     self.wordcount += 1 #total number of words
-        #make a list of word information
-        self.wordinfo = ''
-        for key in self.words.keys():
-            self.wordinfo += key+' = '+str(self.words[key])+'<br/>'
+
+        # extract the title of the web page
+        try:
+            self.title = soup.title.string
+        except:
+            self.title = '' #empty title in case of error
+        
+        self.wordinfo = self.title
         
     def visible(element):
         '''
@@ -99,6 +103,12 @@ class HTMLParser:
         Returns the list of links on the current document
         '''
         return self.links
+
+    def title_word_count(self,word):
+        '''
+        count the number of times the word appear in title of this website
+        '''
+        return self.title.count(word)
 
     def get_content(self):
         return self.content
