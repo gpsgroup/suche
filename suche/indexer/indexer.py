@@ -72,6 +72,10 @@ class Indexer:
         # the current URLs or if the current URL list is incomplete
         for word in parser.get_word_dict().keys():
             wordobj = Word.objects.get(word = word)
+
+            #delete any previous result
+            Result.objects.filter(word = wordobj, url = thisurl).delete()
+            
             #create a result for that word
             result = Result(word = wordobj, url = thisurl)
 
@@ -103,8 +107,8 @@ class Indexer:
                     result.save()
             
         # set the data as operated
-        # self.raw.operated = True
-        # self.raw.save()
+        self.raw.operated = True
+        self.raw.save()
         urls =  '<br/>'.join(urls)
         return  parser.get_info()
 
