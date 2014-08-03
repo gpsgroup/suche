@@ -54,6 +54,30 @@ class SucheURL(models.Model):
         domain = o.scheme + "://" + o.netloc
         return domain
 
+    def update_rank(self):
+        '''
+        Update the page rank of this URL
+        Here is what we do: we find all the URLs linking to this URL from another domain.
+        We calculate the rank of this website by the equation
+
+        TODO: A seperate bot will randomly iterate through the URLs calculating their page rank
+        Page rank settles to a steady value after certain iterations.
+        '''
+        #first of all, get a list of all links that point to the current URL
+        damping = 0.85 # our damping factor
+        #get the list of all URLs linking to this URL
+        links = Link.objects.filter(tourl = self)
+        mydomain = self.getDomain()
+
+        sumpr = 0
+        for link in links:
+            url = link.fromurl
+            if mydomain != url.getDomain():
+                # if the link is from another domain
+                # sumpr = pagerank of url / no of links originating in url
+                sumpr += url.rank / Link.objects.filter(fromurl = url).count()
+        self.rank = (1-damping) + damping * sumpr
+
 class Link(models.Model):
     '''
     This class represents a link from one url to another url in the form of
