@@ -34,12 +34,19 @@ class Word(models.Model):
     '''
     word = models.CharField(max_length = 50)
     count = models.IntegerField(default = 0)
-
+    probability = models.FloatField(default = 0)
+    
 class BiGram(ngramModel):
+    '''
+    Birgram language model
+    created using user queries
+    As we do stupid backoff, probability is not actually
+    the probability but like a ranking factor
+    '''
     word1 = models.CharField(max_length = 50)
     word2 = models.CharField(max_length = 50)
     count = models.IntegerField(default = 0)
-    perplexity = models.FloatField(default = 0)
+    probability = models.FloatField(default = 0)
 
     def __str__(self):
         return self.word1+" | "+self.word2
@@ -50,7 +57,7 @@ class TriGram(ngramModel):
     word2 = models.CharField(max_length = 50)
     word3 = models.CharField(max_length = 50)
     count = models.IntegerField(default = 0)
-    perplexity = models.FloatField(default = 0)
+    probability = models.FloatField(default = 0)
     def __str__(self):
         return self.word1+" | "+self.word2+" | "+self.word3
 
