@@ -84,6 +84,15 @@ class TriGram(ngramModel):
     def __str__(self):
         return self.word1+" | "+self.word2+" | "+self.word3
 
+    def update():
+        '''
+        Updates the trigram model
+        '''
+        for trigram in TriGram.objects.all():
+            twosum = TriGram.objects.filter(word1 = trigram.word1, word2 = trigram.word2).aggregate(Sum('count'))['count__sum']
+            trigram.probability = trigram.count / twosum
+            trigram.save()
+
 
 class CompletionCache(models.Model):
     '''
