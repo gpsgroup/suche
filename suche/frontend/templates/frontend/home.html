@@ -3,7 +3,7 @@
 
 {% block body %}
    
-    <div class="row" id="bg" style="padding-bottom: 5px">
+    <div class="row" id="bg" style="padding-bottom: 20px">
         <div class="container text-center" >
         <!--logo -->
             <div class="row text-center">
@@ -68,7 +68,7 @@ $('#search_form').submit(function(event) {
     event.preventDefault();
     
     var vall=$('#search').val();
-    if (vall!="") {
+    if (vall!="" && state==0) {
         //code
           $( "#search" ).autocomplete ("close");  
           $('#logo').animate({
