@@ -45,6 +45,9 @@ class Word(models.Model):
         for word in Word.objects.all():
             word.probability = word.count / totalwords
             word.save()
+
+    def __str__(self):
+        return self.word
     
 class BiGram(ngramModel):
     '''
@@ -60,7 +63,17 @@ class BiGram(ngramModel):
 
     def __str__(self):
         return self.word1+" | "+self.word2
-    
+
+    def update():
+        '''
+        Updates the bigram model.
+        This will calculate the probability of word for bigram model
+        '''
+        for bigram in BiGram.objects.all():
+            onesum = BiGram.objects.filter(word1 = bigram.word1).aggregate(Sum('count'))['count__sum']
+            bigram.probability = bigram.count / onesum
+            bigram.save()
+        
 
 class TriGram(ngramModel):
     word1 = models.CharField(max_length = 50)
