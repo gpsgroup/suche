@@ -2,10 +2,12 @@
 indexer for suche Search Engine
 copyright (c) 2014 Suche
 '''
-from indexer.models import SucheURL,Link,Word
+from indexer.models import SucheURL,Link,Word,Result
 from indexer.htmlparser import HTMLParser
+from crawler.models import *
 
 class Indexer:
+
     def set_raw(self,raw):
         '''
         sets the raw data row to which the indexer is to operate.
@@ -65,9 +67,48 @@ class Indexer:
         #if any new words are found in the document, add them to the words table
         for word in parser.get_word_dict().keys():
             wordrow, created = Word.objects.get_or_create(word = word)
+
+        # now get the rank of the current URL for the words and place it in index if it has higher rank than
+        # the current URLs or if the current URL list is incomplete
+        for word in parser.get_word_dict().keys():
+            wordobj = Word.objects.get(word = word)
+
+            #delete any previous result
+            Result.objects.filter(word = wordobj, url = thisurl).delete()
+            
+            #create a result for that word
+            result = Result(word = wordobj, url = thisurl)
+
+            # get the word rank for this page
+            result.wordrank = parser.word_rank(word)
+            
+            # count the number of times this word appear in the title of the website
+            result.titlewordcount = parser.title_word_count(word)
+
+            #count the number of times this word has been linked with text containing this word
+            result.linkswordcount = Link.objects.filter(tourl = thisurl, text__icontains = word).count()
+
+            # we ignore the user rank for now
+
+            #calculate the url point as
+            # urlpoint = wordrank + pagerank of website + max(6 , No of words in title) + max(6, 2 * no of words in URL) + max( 20, linkswordcount / 10)
+            result.urlpoint = result.wordrank + min(6, result.titlewordcount) + min( 6, 2 * thisurl.url.count(word)) + min( 20, result.linkswordcount / 10)
+            
+            #if there are not enough results for the word or if the current
+            # URL is better than the previous URLs, save the result
+            if Result.objects.filter(word = wordobj).count() < 100:
+                # if less result, simple add this result
+                result.save()
+            else:
+                # if the current URL is better than the worst result, delete the worst result and add this result
+                worstresult = Result.objects.filter(word = wordobj).order_by('urlpoint')[0]
+                if result.urlpoint > worstresult.urlpoint:
+                    worstresult.delete()
+                    result.save()
+            
         # set the data as operated
-        # self.raw.operated = True
-        # self.raw.save()
+        self.raw.operated = True
+        self.raw.save()
         urls =  '<br/>'.join(urls)
-        return urls + parser.get_info()
+        return  parser.get_info()
 

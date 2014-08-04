@@ -62,10 +62,14 @@ class HTMLParser:
                 if len(word) >= 2:
                     self.words[word] += 1
                     self.wordcount += 1 #total number of words
-        #make a list of word information
-        self.wordinfo = ''
-        for key in self.words.keys():
-            self.wordinfo += key+' = '+str(self.words[key])+'<br/>'
+
+        # extract the title of the web page
+        try:
+            self.title = soup.title.string
+        except:
+            self.title = '' #empty title in case of error
+        
+        self.wordinfo = self.title
         
     def visible(element):
         '''
@@ -82,23 +86,30 @@ class HTMLParser:
         gets the rank of any word in the document
         The rank of any word is calculated as
 
-        rank = 10 * log2 ( wordcount + 1)
+        rank = 10 * log( wordcount + 1)  / log(30)
+        i.e in log30 scale
 
         wordcount = count of the current word
 
         if wordcount = 0, rank = 0
-        wordcount = 1, rank = 10
-        wordcount = 2, rank = 15
-        wordcount = 5, rank = 25
+        wordcount = 1, rank = 2.03
+        wordcount = 2, rank = 3.2
+        wordcount = 5, rank = 5.2
         and so on
         '''
-        return 10 * log2( self.words[word] + 1)
+        return 10 * (log2( self.words[word] + 1) / log2(30))
 
     def get_links(self):
         '''
         Returns the list of links on the current document
         '''
         return self.links
+
+    def title_word_count(self,word):
+        '''
+        count the number of times the word appear in title of this website
+        '''
+        return self.title.count(word)
 
     def get_content(self):
         return self.content

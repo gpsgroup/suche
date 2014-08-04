@@ -43,7 +43,7 @@ def OperateData(request):
         rawdata = Rawdata.objects.filter(operated = False)[0] # get data that has not been operated on yet
         indxr = Indexer()
         indxr.set_raw(rawdata)
-        urls = indxr.operate()
-        return HttpResponse("Finished processing "+urls)
+        message = indxr.operate()
+        return HttpResponse("Finished processing "+rawdata.url.url+"<br/>"+message)
     except IndexError:
         return HttpResponse("All Data have veen operated")
