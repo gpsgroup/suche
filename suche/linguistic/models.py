@@ -10,6 +10,7 @@ Copyright (c) 2014 by anup pokhrel
 
 from django.db import models
 from django.utils import timezone
+from django.db.models import Sum
 
 class ngramModel(models.Model):
     '''
@@ -35,6 +36,15 @@ class Word(models.Model):
     word = models.CharField(max_length = 50)
     count = models.IntegerField(default = 0)
     probability = models.FloatField(default = 0)
+
+    def update():
+        '''
+        This function recalculates the probability of all words
+        '''
+        totalwords = Word.objects.aggregate(Sum('count'))['count__sum']
+        for word in Word.objects.all():
+            word.probability = word.count / totalwords
+            word.save()
     
 class BiGram(ngramModel):
     '''
