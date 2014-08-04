@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
     url(r'^$', frontendview.home, name='homepage'),
     url(r'^autocomplete$',frontendview.autocomplete, name = 'autocomplete'),
+    url(r'^search$',frontendview.searchresult, name = 'searchresult'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^crawler/', include('crawler.urls', namespace = 'crawler')),
 )

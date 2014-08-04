@@ -45,3 +45,35 @@ def autocomplete(request):
         completions = QueryHandler.get_completions(request.REQUEST['search'])
     resp = request.REQUEST['callback']+'('+json.dumps(completions)+');'
     return HttpResponse(resp,content_type = 'application/json')
+
+def searchresult(request):
+    '''
+      returns the search result div
+      the url is /searchresult
+      
+    '''
+    toOut=""
+    divRowHeader='<div class="row">'
+    titleSpan='<span style="font-family:Arial, Helvetica, sans-serif; color:#0a5c83; font-weight:bold">'
+    linkSpan='<span style="font-family:Arial, Helvetica, sans-serif; color:#070; font-size:12px">'
+    contentSpan='<span style="font-family:Verdana, Geneva, sans-serif; font-size:14px;font-weight:lighter">'
+    
+    
+    divEnd='</div>'
+    
+    #for loop for each result
+    for i in range(10):
+        toOut+=divRowHeader
+        #enter title,link,content for results here
+        link="http://google.com"
+        title="This is a search Title"
+        content='This is content.This is content.This is content.This is content.This is content.This is content.This is content.This is content.This is content.This is content.This is content.This is content.This is content.This is content.This is content.This is content.'
+        
+        #display formatting
+        toOut+=divRowHeader+'<a href="'+link+'" style="text-decoration:none">'+titleSpan+title+'</span></a></div>'
+        toOut+=divRowHeader+linkSpan+link+'</span></div>'
+        toOut+=divRowHeader+contentSpan+content+'</span></div>'
+        toOut+='</div><br>'
+    return HttpResponse(toOut)    
+    
+

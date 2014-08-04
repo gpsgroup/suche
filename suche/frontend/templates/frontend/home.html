@@ -27,8 +27,8 @@
     </div>
     </div>
     
-    <div class="container text-left" style="padding-top: 10px">
-        Result goes Here
+    <div class="container text-left" style="padding-top: 10px" id="searchResult">
+       
     </div>
 
 <script>
@@ -90,6 +90,22 @@ $('#search_form').submit(function(event) {
           $('#logo1').css({"margin": "0 auto" } );
           state=1;
           
+        
+    }
+    if (vall!="") {
+        //code
+        $.get("/search",function(op){
+               $("#searchResult").html("");
+               $("#searchResult").fadeOut("slow",function()
+                                          {
+                                            $("#searchResult").html(op).fadeIn("slow");
+                                          }
+                                          );
+               
+               
+               
+               
+            });
         
     }
 
