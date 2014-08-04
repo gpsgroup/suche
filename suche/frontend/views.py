@@ -16,9 +16,11 @@ def home(request):
 
     query = request.REQUEST.get('q','')
     correctedquery = ''
+    parsedquery=''
     if query:
         # if the user entered some text, record it
         correctedquery = QueryHandler.correct_query(query)
+        parsedquery=str(QueryHandler.parse_query(correctedquery))
         QueryHandler.register_query(correctedquery)
 
         
@@ -26,6 +28,7 @@ def home(request):
         'title': "Suche",
         'query' : query,
         'correctedquery' : correctedquery,
+        'parsedquery':parsedquery,
     })
     return HttpResponse(template.render(context))
 

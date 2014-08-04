@@ -19,6 +19,13 @@ class ngramModel(models.Model):
         abstract= True
     
 
+class Grammar(models.Model):
+    '''
+      table to store grammar and corresponding action
+    '''
+    grammar=models.CharField(max_length=1024)
+    action=models.CharField(max_length=1024)
+
 class Word(models.Model):
     '''
     this word table is used for spell correction and other purpose
