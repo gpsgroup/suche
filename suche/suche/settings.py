@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'frontend',
     'linguistic',
+    'engine',
     
 )
 

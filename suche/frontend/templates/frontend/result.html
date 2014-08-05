@@ -1,0 +1,31 @@
+<div>
+  This is the result page for 
+
+  {% for result in results %}
+  <div class="row">
+
+    <div class="row">
+      <a href="{{ result.fullurl }}" style="text-decoration:none">
+        <span style="font-family:Arial, Helvetica, sans-serif; color:#0a5c83; font-weight:bold">
+          {{ result.title }}
+        </span>
+      </a>
+    </div>
+
+
+    <div class="row">
+      <span style="font-family:Arial, Helvetica, sans-serif; color:#070; font-size:12px">
+        {{ result.url }}
+      </span>
+    </div>
+
+    <div class="row">
+      <span style="font-family:Verdana, Geneva, sans-serif; font-size:14px;font-weight:lighter">
+        {{ result.body }}
+      </span>
+    </div>
+
+  </div>
+</br>
+{% endfor %}
+</div>

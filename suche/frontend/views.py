@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django import forms
 from django.contrib import messages
 from linguistic.queryhandler import QueryHandler
-
+from engine.result import SucheResult
 
 def home(request):
     '''
@@ -52,27 +52,34 @@ def searchresult(request):
       the url is /searchresult
       
     '''
+    query = request.REQUEST.get('q','')
+    if not query:
+        return HttpResponse("Please enter your query")
+    else:
+        correctedquery = QueryHandler.correct_query(query)
+        QueryHandler.register_query(correctedquery)
+
+    results = []
+    for i in range(1,10):
+        result = SucheResult('','')
+        result.title = "Hello world"
+        result.body = "This is the body of the result"
+        result.url = "http://google.com..."
+        result.fullurl = "http://google.com/search?q=Hello+word"
+        
+        results.append(result)
+
     toOut=""
     divRowHeader='<div class="row">'
     titleSpan='<span style="font-family:Arial, Helvetica, sans-serif; color:#0a5c83; font-weight:bold">'
     linkSpan='<span style="font-family:Arial, Helvetica, sans-serif; color:#070; font-size:12px">'
     contentSpan='<span style="font-family:Verdana, Geneva, sans-serif; font-size:14px;font-weight:lighter">'
     
-    
-    divEnd='</div>'
-    
-    #for loop for each result
-    for i in range(10):
-        toOut+=divRowHeader
-        #enter title,link,content for results here
-        link="http://google.com"
-        title="This is a search Title"
-        content='This is content.This is content.This is content.This is content.This is content.This is content.This is content.This is content.This is content.This is content.This is content.This is content.This is content.This is content.This is content.This is content.'
-        
-        #display formatting
-        toOut+=divRowHeader+'<a href="'+link+'" style="text-decoration:none">'+titleSpan+title+'</span></a></div>'
-        toOut+=divRowHeader+linkSpan+link+'</span></div>'
-        toOut+=divRowHeader+contentSpan+content+'</span></div>'
-        toOut+='</div><br>'
-    return HttpResponse(toOut)    
+    template = loader.get_template('frontend/result.html')
 
+    context = RequestContext(request, {
+        'query' : query,
+        'correctedquery' : correctedquery,
+        'results':results,
+    })
+    return HttpResponse(template.render(context))

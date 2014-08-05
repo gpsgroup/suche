@@ -94,7 +94,7 @@ $('#search_form').submit(function(event) {
     }
     if (vall!="") {
         //code
-        $.get("/search",function(op){
+        $.get("/search?q="+encodeURIComponent(vall),function(op){
                $("#searchResult").html("");
                $("#searchResult").fadeOut("slow",function()
                                           {
