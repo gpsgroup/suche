@@ -1,11 +1,15 @@
-<div>
-  This is the result page for 
+<div style="padding:5px;">
+  <span style="font-family:Verdana, Geneva, sans-serif; font-size:14px;font-weight:lighter">
+    Searching for {{ correctedquery }}. {% if corrected %} Search instead for {{ query }} {% endif %}<br/>
+    Showing 1-10 of about 300000 results<br/>
+  </span>
+<hr>
 
   {% for result in results %}
   <div class="row">
 
     <div class="row">
-      <a href="{{ result.fullurl }}" style="text-decoration:none">
+      <a href="{{ result.fullurl }}" style="text-decoration:none" target="_blank">
         <span style="font-family:Arial, Helvetica, sans-serif; color:#0a5c83; font-weight:bold">
           {{ result.title }}
         </span>

@@ -59,8 +59,12 @@ def searchresult(request):
         correctedquery = QueryHandler.correct_query(query)
         QueryHandler.register_query(correctedquery)
 
+    corrected = False
+    if correctedquery != query:
+        corrected = True
+
     results = []
-    for i in range(1,10):
+    for i in range(1,100):
         result = SucheResult('','')
         result.title = "Hello world"
         result.body = "This is the body of the result"
@@ -69,17 +73,12 @@ def searchresult(request):
         
         results.append(result)
 
-    toOut=""
-    divRowHeader='<div class="row">'
-    titleSpan='<span style="font-family:Arial, Helvetica, sans-serif; color:#0a5c83; font-weight:bold">'
-    linkSpan='<span style="font-family:Arial, Helvetica, sans-serif; color:#070; font-size:12px">'
-    contentSpan='<span style="font-family:Verdana, Geneva, sans-serif; font-size:14px;font-weight:lighter">'
-    
     template = loader.get_template('frontend/result.html')
 
     context = RequestContext(request, {
         'query' : query,
         'correctedquery' : correctedquery,
+        'corrected' : corrected,
         'results':results,
     })
     return HttpResponse(template.render(context))
