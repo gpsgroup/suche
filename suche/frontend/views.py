@@ -75,5 +75,4 @@ def searchresult(request):
         toOut+=divRowHeader+contentSpan+content+'</span></div>'
         toOut+='</div><br>'
     return HttpResponse(toOut)    
-    
 
