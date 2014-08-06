@@ -2,7 +2,7 @@
 query handler for suche search engine
 '''
 
-from linguistic.models import BiGram, TriGram, CompletionCache,SpellCache
+from linguistic.models import BiGram, TriGram, CompletionCache,SpellCache,Word
 from linguistic.interfacee import *
 from linguistic.NLProcess import *
 class QueryHandler:
@@ -54,6 +54,11 @@ class QueryHandler:
         bigramwords = []
         trigramwords = []
         for word in words:
+            
+            wordobj,created = Word.objects.get_or_create(word = word)
+            wordobj.count += 1
+            wordobj.save()
+            
             bigramwords.append(word)
             trigramwords.append(word)
             if(len(bigramwords) > 2):
