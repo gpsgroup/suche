@@ -39,12 +39,19 @@ def autocomplete(request):
     to test this view,
     http://127.0.0.1:8000/autocomplete?callback=autocomplete&search=a
     '''
-    import json
+    
     completions = []
     if 'search' in request.REQUEST:
         completions = QueryHandler.get_completions(request.REQUEST['search'])
-    resp = request.REQUEST['callback']+'('+json.dumps(completions)+');'
-    return HttpResponse(resp,content_type = 'application/json')
+        resp='<table style="width:100%;" class="text-left">'
+    
+        for compl in completions:
+            resp=resp+'<tr class="autoRow"><td>'
+            compl2=compl.replace(request.REQUEST['search'],'<strong>'+request.REQUEST['search']+'</strong>')
+            resp=resp+str(compl2)
+            resp=resp+'</tr>'
+    resp=resp+"</table>"
+    return HttpResponse(resp)
 
 def searchresult(request):
     '''

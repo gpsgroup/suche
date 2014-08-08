@@ -2,13 +2,20 @@
 {% load staticfiles %}
 
 {% block body %}
-   
-    <div class="row" id="bg" style="padding-bottom: 20px">
-        <div class="container text-center" >
+<style type="text/css">
+    .autoRow
+    {
+	width:100%;
+	height:25px;
+    }
+</style>
+
+    <div class="row" style="padding-bottom: 20px" id="bg">
+        <div class="container text-center">
         <!--logo -->
             <div class="row text-center">
              
-                <div class="row text-center">
+                <div class="row text-center" id="bg">
                 <div class="col-md-12 text-center" id="logo">
                 <img  src="{% static 'images/logo.png' %}" class="img-responsive" style="margin: 0 auto;" id="logo1"/>       
                 </div>
@@ -16,49 +23,58 @@
                 <form class="row" id="search_form" action="/" method="GET">
                     <div class="input-group">
                       <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
-                      <input type="text" class="form-control" placeholder="Search Query" id="search" name = "q" style="height:50px" onkeyup = "startcompletion()" value="{{ query }}"/>
+                      <input type="text" class="form-control" placeholder="Search Query" id="search" name = "q" style="height:50px"  autocomplete="off"/>
                       <div class="input-group-btn"><input type="submit" value="Search" class="btn btn-primary" style="height:50px; width:100px" id="submitBtn"></div>
                     </div>
-                </form>
 
+                </form>
+  <div id="box" style="display: block;left:150px;position: absolute;border-style: solid;float:right;z-index: 10000;border-width: thin;border-color: #eee;box-shadow: 3px 3px 3px #eee;background-color: #fff">
+                       
+                        
+                    </div>
 {% if query %}<br/><br/><p>Showing result for &quot;<strong>{{ correctedquery }} </strong> &quot;{% if correctedquery != query  %} Show instead for &quot;<strong> {{ query }} {% endif %}</strong>&quot;</p><br>Parsed:<b>{{parsedquery}}</b>{% endif %}
 
             </div>
     </div>
     </div>
+                  
     
     <div class="container text-left" style="padding-top: 10px" id="searchResult">
-       
+  
     </div>
 
 <script>
 var state=0;
+//for keyup keydown
+var index=-1;
+//flag for autocomplete
+var autoState=0;
 $(function(){
     
    $('#search').focus(); 
+   $('#search').keyup(function(e){
+     if(e.keyCode!=13 && e.keyCode!=38 && e.keyCode!=40)
+     {
+        startcompletion();
+     }
+   });
 });
 
 function startcompletion() {
     var search = $('#search').val()
+    //alert('aaa');
     var data = {
+        callback:"autocomplete",
         search: search
     };
-    $.ajax({
-        url: '/autocomplete',
-        data: data,
-        dataType: 'jsonp',
-        jsonp: 'callback',
-        jsonpCallback: 'autocomplete'
+    $.get('/autocomplete',data,function(op){
+        displayAutocomplete(op);
     });
+    
+
 }
 
 
-function autocomplete(data) {
-console.log("here");
-    $( "#search" ).autocomplete ({
-        source: data
-    });
-}
 
 $(function() {
 $('#search_form').submit(function(event) {
@@ -66,11 +82,12 @@ $('#search_form').submit(function(event) {
 //this function will slide the division "topspace" up and 
 //display the result.
     event.preventDefault();
-    
+    //alignAutoSize();
     var vall=$('#search').val();
     if (vall!="" && state==0) {
         //code
-          $( "#search" ).autocomplete ("close");  
+        
+          $( "#searchaa" ).autocomplete ("close");  
           $('#logo').animate({
               "width":"300px",
               
@@ -87,24 +104,24 @@ $('#search_form').submit(function(event) {
                  "left":"0px"
               
           },"slow");
+          
           $('#logo1').css({"margin": "0 auto" } );
+          
           state=1;
           
         
     }
-    if (vall!="") {
-        //code
-        $.get("/search?q="+encodeURIComponent(vall),function(op){
-               $("#searchResult").html("");
-               $("#searchResult").fadeOut("slow",function()
-                                          {
-                                            $("#searchResult").html(op).fadeIn("slow");
-                                          }
-                                          );
-               
-               
-               
-               
+
+        if (vall!="" && state==1) {
+
+        //do the get request
+
+            $.get("/search?q="+encodeURIComponent(vall),function(op){              
+               $("#searchResult").fadeOut("fast",function()
+                {
+			
+                    $("#searchResult").html(op).fadeIn("fast");
+                });              
             });
         
     }
@@ -115,5 +132,132 @@ $('#search_form').submit(function(event) {
 
 });
 
+</script>
+
+<script>
+    //autoComplete box
+function alignAutoSize()
+{
+   var sizee=$('#search').width();
+   $('#box').width(sizee);
+   var leftt=$('#box').offset().left;
+   leftt=leftt-30;
+   $('#box').offset({left:leftt});       
+    
+}
+function hideAutocomplete() {
+    //code
+    $('#box').fadeOut("fast");
+    autoState=0;
+}
+function showAutocomplete() {
+    //code
+    $('#box').fadeIn("fast");
+    autoState=1;
+}
+
+//display autocomplete box and display data
+function displayAutocomplete(data) {
+var prevData=$('#box').text();
+if(prevData!=data)
+{
+    var vall=$('#search').val();
+    if (vall!="")
+    {
+        $("#box").html(data);
+        $("#box").attr("style","display: block;left:150px;position: absolute;border-style: solid;float:right;z-index: 10000;border-width: thin;border-color: #eee;box-shadow: 3px 3px 3px #eee;background-color: #fff");
+alignAutoSize();       
+if(autoState!=1)
+       { 
+       
+       if ($("#search").is(":focus")) {
+            // display box with data
+            showAutocomplete();
+        }
+       }
+    }
+    else
+    {
+      hideAutocomplete();
+    }
+
+}
+   
+}
+ $(function(){
+    alignAutoSize();
+    //on focus out hide
+    $('#search').focusout(function(){
+        hideAutocomplete();
+    });
+    $('#box').on("mouseenter", ".autoRow", function() {
+       $(this).animate({"backgroundColor":"#eee"},10);
+    });
+
+    $('#box').on("mouseleave", ".autoRow", function() {
+       $(this).animate({"backgroundColor":"#fff"},10);
+    });
+    $('#box').on("click", ".autoRow", function() {
+       var text=$(this).text();
+       $("#search").val(text);
+    });
+    
+    
+    //arrow handling
+    $(document).keydown(function(e){
+       
+        
+            switch (e.keyCode)
+            {
+                case 40:
+                    
+                                  
+                     $('.autoRow').eq(index).animate({"backgroundColor":"#fff"},10);
+                     var size=$('.autoRow').length;
+                    
+                     index++;
+                    if (index>size) {
+                        //code
+                        index=0;
+                     }
+                     $('.autoRow').eq(index).animate({"backgroundColor":"#eee"},10);
+                      
+                    break;
+                case 38:
+                    
+                                         
+                     $('.autoRow').eq(index).animate({"backgroundColor":"#fff"},10);
+                     var size=$('.autoRow').length;
+                     index--;
+                     if (index<0) {
+                        //code
+                        index=size;
+                     }      
+                      
+                     $('.autoRow').eq(index).animate({"backgroundColor":"#eee"},10);
+                    break;
+                
+            }
+    });
+    
+    $(document).keydown(function(e){
+        if (autoState==1) {
+            var length=$('.autoRow').length;
+            if (index>=0 && index<length) {
+                if(e.keyCode==13){
+                e.preventDefault();
+                var text=$('.autoRow').eq(index).text();
+                $("#search").val(text);
+		index=-1;
+                hideAutocomplete();   
+             }
+                
+            }
+        }
+        
+    });
+ 
+ });
+ 
 </script>
 {% endblock body %}
