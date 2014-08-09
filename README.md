@@ -13,3 +13,9 @@ The spell correction script must be running for the project to work properly
 
     ./runspell.sh
 
+To seed the word list for the spell correction program, you need to place a file named "big.txt" in the scripts folder. 
+Then, run the database seed program as
+
+    python3 manage.py shell
+    >>> from scripts.databaseSeed import run
+    >>> run()
