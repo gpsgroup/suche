@@ -5,7 +5,7 @@ It is made in python using django framework.
 To start the project,
 
     ./runserver.sh
-    
+
 First seed the database for spell corrector words use:
 ./dbseed.sh
 

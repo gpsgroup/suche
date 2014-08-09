@@ -23,7 +23,6 @@ def home(request):
         parsedquery=str(QueryHandler.parse_query(correctedquery))
         QueryHandler.register_query(correctedquery)
 
-        
     context = RequestContext(request, {
         'title': "Suche",
         'query' : query,
@@ -39,12 +38,12 @@ def autocomplete(request):
     to test this view,
     http://127.0.0.1:8000/autocomplete?callback=autocomplete&search=a
     '''
-    
+
     completions = []
     if 'search' in request.REQUEST:
         completions = QueryHandler.get_completions(request.REQUEST['search'])
         resp='<table style="width:100%;" class="text-left">'
-    
+
         for compl in completions:
             resp=resp+'<tr class="autoRow"><td>'
             compl2=compl.replace(request.REQUEST['search'],'<strong>'+request.REQUEST['search']+'</strong>')
@@ -57,7 +56,6 @@ def searchresult(request):
     '''
       returns the search result div
       the url is /searchresult
-      
     '''
     query = request.REQUEST.get('q','')
     if not query:
@@ -77,7 +75,7 @@ def searchresult(request):
         result.body = "This is the body of the result"
         result.url = "http://google.com..."
         result.fullurl = "http://google.com/search?q=Hello+word"
-        
+
         results.append(result)
 
     template = loader.get_template('frontend/result.html')

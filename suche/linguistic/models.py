@@ -5,7 +5,7 @@ Contains model for the following features:
 * two gram table for auto completion
 * threee gram table for auto completion
 
-Copyright (c) 2014 by anup pokhrel
+Copyright (c) 2014 Suche
 '''
 
 from django.db import models
@@ -18,7 +18,6 @@ class ngramModel(models.Model):
     '''
     class Meta:
         abstract= True
-    
 
 class Grammar(models.Model):
     '''
@@ -48,7 +47,7 @@ class Word(models.Model):
 
     def __str__(self):
         return self.word
-    
+
 class BiGram(ngramModel):
     '''
     Birgram language model
@@ -73,7 +72,7 @@ class BiGram(ngramModel):
             onesum = BiGram.objects.filter(word1 = bigram.word1).aggregate(Sum('count'))['count__sum']
             bigram.probability = bigram.count / onesum
             bigram.save()
-        
+
 
 class TriGram(ngramModel):
     word1 = models.CharField(max_length = 50)

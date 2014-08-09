@@ -5,6 +5,7 @@ query handler for suche search engine
 from linguistic.models import BiGram, TriGram, CompletionCache,SpellCache,Word
 from linguistic.interfacee import *
 from linguistic.NLProcess import *
+
 class QueryHandler:
     '''
     QueryHandler class handles all the query related stuff in the
@@ -33,12 +34,12 @@ class QueryHandler:
             key,value=resp.popitem()
             newwords.append(key)
         return ' '.join(newwords)
-    
+
     def parse_query(query):
         '''parses the query to the specified grammar '''
         nlg=NLGrammar(str(query))
         return str(nlg.compareGetId())
-    
+
     def register_query(uquery):
         '''
         Register a query. The query is any query string that the user
@@ -48,17 +49,17 @@ class QueryHandler:
         completion, created = CompletionCache.objects.get_or_create(query = uquery)
         completion.count += 1
         completion.save()
-    
+
         # create bigram and trigram models from the query
         words = ['#']+uquery.split(' ')+['#'] # we use # to represent start and end of queries
         bigramwords = []
         trigramwords = []
         for word in words:
-            
+
             wordobj,created = Word.objects.get_or_create(word = word)
             wordobj.count += 1
             wordobj.save()
-            
+
             bigramwords.append(word)
             trigramwords.append(word)
             if(len(bigramwords) > 2):
@@ -74,7 +75,7 @@ class QueryHandler:
                 trigram,created = TriGram.objects.get_or_create(word1 = trigramwords[0], word2 = trigramwords[1], word3 = trigramwords[2])
                 trigram.count += 1
                 trigram.save()
-            
+
     def get_completions(query):
         '''
         Get the auto completions for the query
