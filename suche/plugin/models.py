@@ -21,7 +21,7 @@ def randomGen():
 class Plugin(models.Model):
     name=models.CharField(max_length=256)
     plugin_type=models.CharField(max_length=128)
-    showsOp=models.BooleanField() # whether to show op in opBox in search result
+    showsOp=models.BooleanField(default=False) # whether to show op in opBox in search result
     grammar=models.OneToOneField(Grammar)
     privateKey=models.CharField(max_length=512,default=randomGen)
     pluginKey=models.CharField(max_length=512, default=randomGen)
