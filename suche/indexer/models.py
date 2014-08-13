@@ -14,7 +14,7 @@ class SucheURL(models.Model):
     url = models.CharField(max_length=200,primary_key=True)
 
     rank = models.FloatField(default = 0.0)
-    title = models.CharField(max_length = 200, default = '')
+    title = models.TextField(default = '')
     body = models.TextField(default = '')
 
     def __str__(self):

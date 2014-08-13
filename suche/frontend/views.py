@@ -7,6 +7,11 @@ from django.contrib import messages
 from linguistic.queryhandler import QueryHandler
 from engine.result import SucheResult
 from engine.search import SucheSearch
+from indexer.models import SucheURL
+from crawler.models import Rawdata
+from django.shortcuts import get_object_or_404
+
+
 def home(request):
     '''
     This is the search engine home page handler.
@@ -77,3 +82,11 @@ def searchresult(request):
         'hasresult' : True if len(search.results) > 0 else False,
     })
     return HttpResponse(template.render(context))
+def websitecache(request):
+    url = request.GET.get('page','')
+    if len(url) > 4:
+        urlobj = get_object_or_404(SucheURL, url=url)
+        data = get_object_or_404(Rawdata,url = urlobj)
+        return HttpResponse(data.old_data)
+    # show 404 error page
+    raise Http404
