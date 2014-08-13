@@ -24,7 +24,7 @@ class QueryHandler:
         correct query will take the user query as parameter
         and corrects the spelling of each word int the query
         '''
-        words = query.split(" ")
+        words = query.lower().split(" ")
         newwords = []
         interf = DInterface()
         for word in words:

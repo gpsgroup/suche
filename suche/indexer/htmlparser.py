@@ -35,7 +35,7 @@ class HTMLParser:
         for link in soup.find_all('a'):
             filteredurl = SucheURL.filterURL(urljoin(self.url.url,link.get('href')))
             if SucheURL.isvalid(filteredurl): # check if it is a valid URL
-                self.links.append((filteredurl,link.text))
+                self.links.append((filteredurl,link.text.lower())) # the text is saved in lowercase
 
         #get the title of the web page and text from the body of the web page
 
@@ -44,7 +44,7 @@ class HTMLParser:
         visible_texts = filter(HTMLParser.visible, texts)
 
         # remove symbols from the content and keep only valid english words (and numbers)
-        validsymbols =' -' + string.ascii_letters +'0123456789'
+        validsymbols =' ' + string.ascii_letters +'0123456789'
 
         self.content = ''
         for char in ' '.join(visible_texts):
@@ -57,6 +57,8 @@ class HTMLParser:
         self.words = defaultdict(int)
         self.wordcount = 0
 
+        sentences = [sentence.lower() for sentence in sentences] # convert the sentences to lower case
+        
         for sentence in sentences:
             for word in sentence.split(" "):
                 if len(word) >= 2:
@@ -68,6 +70,7 @@ class HTMLParser:
             self.title = soup.title.string
         except:
             self.title = '' #empty title in case of error
+        self.lowertitle = self.title.lower()
         
         self.wordinfo = self.title
         
@@ -109,7 +112,7 @@ class HTMLParser:
         '''
         count the number of times the word appear in title of this website
         '''
-        return self.title.count(word)
+        return self.lowertitle.count(word)
 
     def get_content(self):
         return self.content

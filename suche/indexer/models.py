@@ -98,7 +98,6 @@ class Word(models.Model):
     the HTML document
     '''
     word = models.TextField(max_length = 50)
-
     def __str__(self):
         return self.word
 
