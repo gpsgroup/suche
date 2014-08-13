@@ -3,10 +3,10 @@ Crawler model for django
 Copyright (c) 2014 by anup pokhrel
 '''
 
-from django.db import models
-from django.utils import timezone
-from indexer.models import SucheURL
-from datetime import datetime, timedelta
+from  django.db import models
+from  django.utils import timezone
+from  indexer.models import SucheURL
+from  datetime import datetime, timedelta
 import urllib3
 
 
