@@ -14,11 +14,10 @@ class WordListAdmin(admin.ModelAdmin):
 
 class SpellCorrectorAdmin(admin.ModelAdmin):
     pass
-class GrammarAdmin(admin.ModelAdmin):
-    pass
+
 admin.site.register(BiGram,BiGramAdmin)
 admin.site.register(TriGram, TriGramAdmin)
 admin.site.register(CompletionCache,CompletionCacheAdmin)
 admin.site.register(Word,WordListAdmin)
 admin.site.register(SpellCache,SpellCorrectorAdmin)
-admin.site.register(Grammar,GrammarAdmin)
+
