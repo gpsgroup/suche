@@ -1,6 +1,7 @@
 from django.db import models
 import random as rand
 
+
 class Grammar(models.Model):
     '''
       table to store grammar and corresponding action
@@ -13,6 +14,7 @@ class Grammar(models.Model):
    model for plugin class
    the names of the fields speak for themselves
 '''
+
 
 def randomGen():
     return rand.getrandbits(256)
