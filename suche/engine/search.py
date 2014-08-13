@@ -58,6 +58,7 @@ class SucheSearch:
                         result = SucheResult()
                         result.fullurl = res.url.url
                         result.url = res.url.url if len(res.url.url) < 50 else res.url.url[:49]+"..."
+                        result.urlpoint = res.urlpoint
                         result.fullurl = res.url.url
                         result.body = "Thsi is the body"
 
@@ -66,9 +67,10 @@ class SucheSearch:
                         
                         result.title = res.url.title
                         self.results.append(result)
-
             except Word.DoesNotExist:
                 # do nothing
                 pass
+        #now arrange the result according to ranking
+        self.results.sort(key=lambda x: x.urlpoint, reverse = True)
         
         
