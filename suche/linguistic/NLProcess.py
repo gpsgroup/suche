@@ -1,4 +1,5 @@
 from linguistic.models import *
+from plugin.models import *
 import re
 import math
 class NLGrammar:

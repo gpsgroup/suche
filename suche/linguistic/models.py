@@ -19,12 +19,7 @@ class ngramModel(models.Model):
     class Meta:
         abstract= True
 
-class Grammar(models.Model):
-    '''
-      table to store grammar and corresponding action
-    '''
-    grammar=models.CharField(max_length=1024)
-    action=models.CharField(max_length=1024)
+
 
 class Word(models.Model):
     '''
