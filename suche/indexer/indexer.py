@@ -109,6 +109,8 @@ class Indexer:
 
         # set the data as operated
         self.raw.operated = True
+        self.raw.old_data = self.raw.new_data
+        self.raw.new_data = ''
         self.raw.save()
 
         self.raw.url.title = parser.get_title()

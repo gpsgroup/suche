@@ -15,7 +15,7 @@ class SucheURL(models.Model):
 
     rank = models.FloatField(default = 0.0)
     title = models.CharField(max_length = 200, default = '')
-    body = models.CharField(max_length = 20000, default = '')
+    body = models.TextField(default = '')
 
     def __str__(self):
         return self.url
@@ -23,7 +23,7 @@ class SucheURL(models.Model):
     # some helper functions for URL
     def isvalid(url):
         '''
-        returns if a URL is valid or not.
+        returns if a URL is valid or not.nnn
         We reject extensions without htm, html and php at all times (like js, css, png, etc)
         Also, during testing time, reject any URLs not in specified domain list. Alos, only http
         protocol is allowed
