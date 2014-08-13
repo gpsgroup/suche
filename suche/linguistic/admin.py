@@ -10,7 +10,8 @@ class TriGramAdmin(admin.ModelAdmin):
 class CompletionCacheAdmin(admin.ModelAdmin):
     pass
 class WordListAdmin(admin.ModelAdmin):
-    pass
+    search_fields = ['word']
+
 class SpellCorrectorAdmin(admin.ModelAdmin):
     pass
 

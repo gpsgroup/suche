@@ -72,6 +72,7 @@ class Indexer:
         # the current URLs or if the current URL list is incomplete
         for word in parser.get_word_dict().keys():
             wordobj = Word.objects.get(word = word)
+            wordobj.wordcount += 1
 
             #delete any previous result
             Result.objects.filter(word = wordobj, url = thisurl).delete()

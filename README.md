@@ -19,3 +19,8 @@ Then, run the database seed program as
     python3 manage.py shell
     >>> from scripts.databaseSeed import run
     >>> run()
+
+The current text source for seeding the database is
+
+    http://www-01.sil.org/linguistics/wordlists/english/wordlist/wordsEn.txt
+
