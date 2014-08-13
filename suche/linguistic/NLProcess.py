@@ -58,7 +58,7 @@ class NLGrammar:
                                 for p in self.queryWordList[i:]:
                                     query.append(p)
                                 #query.append(self.queryWordList[i:])
-                                return [gram.id,query]
+                                return [gram,query]
                             else:
                                 query.append(self.queryWordList[i])
                         #if invalid just break    
