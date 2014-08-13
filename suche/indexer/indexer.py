@@ -110,6 +110,9 @@ class Indexer:
         # set the data as operated
         self.raw.operated = True
         self.raw.save()
-        urls =  '<br/>'.join(urls)
+
+        self.raw.url.title = parser.get_title()
+        self.raw.url.body = parser.get_content()
+        self.raw.url.save()
         return  parser.get_info()
 

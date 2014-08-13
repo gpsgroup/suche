@@ -5,8 +5,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django import forms
 from django.contrib import messages
 from linguistic.queryhandler import QueryHandler
-from engine.result import SucheResult,SucheSearch
-
+from engine.result import SucheResult
+from engine.search import SucheSearch
 def home(request):
     '''
     This is the search engine home page handler.

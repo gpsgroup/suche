@@ -14,6 +14,8 @@ class SucheURL(models.Model):
     url = models.CharField(max_length=200,primary_key=True)
 
     rank = models.FloatField(default = 0.0)
+    title = models.CharField(max_length = 200, default = '')
+    body = models.CharField(max_length = 20000, default = '')
 
     def __str__(self):
         return self.url
@@ -98,7 +100,7 @@ class Word(models.Model):
     the HTML document
     '''
     word = models.TextField(max_length = 50)
-    wordcount = models.TextField(default = 0)
+    wordcount = models.IntegerField(default = 0)
     def __str__(self):
         return self.word
 
