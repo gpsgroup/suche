@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django import forms
 from django.contrib import messages
 from linguistic.queryhandler import QueryHandler
-from engine.result import SucheResult
+from engine.result import SucheResult,SucheSearch
 
 def home(request):
     '''
@@ -60,30 +60,20 @@ def searchresult(request):
     query = request.REQUEST.get('q','')
     if not query:
         return HttpResponse("Please enter your query")
-    else:
-        correctedquery = QueryHandler.correct_query(query)
-        QueryHandler.register_query(correctedquery)
 
-    corrected = False
-    if correctedquery != query:
-        corrected = True
-
-    results = []
-    for i in range(1,100):
-        result = SucheResult('','')
-        result.title = "Hello world"
-        result.body = "This is the body of the result"
-        result.url = "http://google.com..."
-        result.fullurl = "http://google.com/search?q=Hello+word"
-
-        results.append(result)
-
+    search = SucheSearch()
+    search.SetQuery(query)
+    search.search()
+    
     template = loader.get_template('frontend/result.html')
 
     context = RequestContext(request, {
-        'query' : query,
-        'correctedquery' : correctedquery,
-        'corrected' : corrected,
-        'results':results,
+        'query' : search.query,
+        'correctedquery' : search.correctedquery,
+        'corrected' : search.isQueryCorrected,
+        'results':search.results,
+        'resultcount' : len(search.results),
+        'totalresults': 19000,
+        'hasresult' : True if len(search.results) > 0 else False,
     })
     return HttpResponse(template.render(context))

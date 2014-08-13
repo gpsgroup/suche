@@ -1,10 +1,12 @@
 <div style="padding:5px;">
   <span style="font-family:Verdana, Geneva, sans-serif; font-size:14px;font-weight:lighter">
     Searching for <strong> {{ correctedquery }}</strong>. {% if corrected %} Search instead for<strong> {{ query }} </strong>{% endif %}<br/>
-    Showing 1-10 of about 300000 results<br/>
+    {% if hasresult %}
+    Showing 1-{{ resultcount }} of about {{ totalresults }} results<br/>
+    {% endif %}
   </span>
-<hr>
-
+  <hr>
+  {% if hasresult %}
   {% for result in results %}
   <div>
     <div>
@@ -31,4 +33,7 @@
   </div>
 </br>
 {% endfor %}
+{% else %}
+<div>Sorry! No result was found for <strong> {{ correctedquery }}</strong> </div>
+{% endif %}
 </div>
