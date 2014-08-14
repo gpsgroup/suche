@@ -10,7 +10,7 @@ from engine.search import SucheSearch
 from indexer.models import SucheURL
 from crawler.models import Rawdata
 from django.shortcuts import get_object_or_404
-
+from plugin.pluginProcess import *
 
 def home(request):
     '''
@@ -76,10 +76,13 @@ def searchresult(request):
     pluginOp=''
     hasPluginOp=False
         #check if op is to be shown
-    if parsedquery[0].plugin.showsOp:
-        hasPluginOp=True
-        q=PluginProcessor(result[0],result[1])
-        pluginOp=output=q.dispatchandRead()        
+    if parsedquery[0]==(-1):
+        pluginOp='no match'
+    else:
+        if parsedquery[0].plugin.showsOp:
+            hasPluginOp=True
+            q=PluginProcessor(parsedquery[0],parsedquery[1])
+            pluginOp=output=q.dispatchandRead()        
     
     template = loader.get_template('frontend/result.html')
 
