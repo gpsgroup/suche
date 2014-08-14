@@ -6,6 +6,12 @@
     {% endif %}
   </span>
   <hr>
+  {% if hasPluginOp %}
+  <div class="row col-md-12 well">
+    {{pluginOp}}
+  </div>
+  {%end if%}
+  
   {% if hasresult %}
   {% for result in results %}
   <div>

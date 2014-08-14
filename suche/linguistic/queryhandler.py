@@ -38,7 +38,7 @@ class QueryHandler:
     def parse_query(query):
         '''parses the query to the specified grammar '''
         nlg=NLGrammar(str(query))
-        return str(nlg.compareGetId())
+        return (nlg.compareGetId())
 
     def register_query(uquery):
         '''

@@ -24,15 +24,15 @@ def home(request):
     parsedquery=''
     if query:
         # if the user entered some text, record it
-        correctedquery = QueryHandler.correct_query(query)
-        parsedquery=str(QueryHandler.parse_query(correctedquery))
+        correctedquery = QueryHandler.correct_query(query)        
         QueryHandler.register_query(correctedquery)
-
+             
+        
     context = RequestContext(request, {
         'title': "Suche",
         'query' : query,
         'correctedquery' : correctedquery,
-        'parsedquery':parsedquery,
+        
     })
     return HttpResponse(template.render(context))
 
@@ -69,6 +69,17 @@ def searchresult(request):
     search = SucheSearch()
     search.SetQuery(query)
     search.search()
+    '''query
+    parsing
+    '''
+    parsedquery=QueryHandler.parse_query(search.correctedquery)
+    pluginOp=''
+    hasPluginOp=False
+        #check if op is to be shown
+    if parsedquery[0].plugin.showsOp:
+        hasPluginOp=True
+        q=PluginProcessor(result[0],result[1])
+        pluginOp=output=q.dispatchandRead()        
     
     template = loader.get_template('frontend/result.html')
 
@@ -80,6 +91,8 @@ def searchresult(request):
         'resultcount' : len(search.results),
         'totalresults': 19000,
         'hasresult' : True if len(search.results) > 0 else False,
+        'hasPluginOp':hasPluginOp,
+        'pluginOp':pluginOp,
     })
     return HttpResponse(template.render(context))
 def websitecache(request):
