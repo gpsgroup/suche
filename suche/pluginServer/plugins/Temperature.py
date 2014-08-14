@@ -14,14 +14,19 @@ class Temperature:
         self.privateKeySent=privateKey
          
     def run(self):
-        if self.privateKeySent==self.privateKey:
-            url='http://api.openweathermap.org/data/2.5/weather?q='+self.city
-            req = urllib.request.Request(url)
-            response = urllib.request.urlopen(req)
-            data=response.read()
-            strOut=data.decode("utf-8")
-            decodedJson=json.loads(strOut)
+       
+        url='http://api.openweathermap.org/data/2.5/weather?q='+self.city
+        
+        req = urllib.request.Request(url)
+        response = urllib.request.urlopen(req)
+        data=response.read()
+        strOut=data.decode("utf-8")
+        decodedJson=json.loads(strOut)
+        if(decodedJson["cod"]!='404'):            
             temp=decodedJson['main']['temp']
             temp=temp-273.15
             return str(temp)
-            
+        else:
+            return ('err')
+    def getPrivateKey(self):
+        return self.privateKey

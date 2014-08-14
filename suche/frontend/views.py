@@ -63,6 +63,7 @@ def searchresult(request):
       the url is /searchresult
     '''
     query = request.REQUEST.get('q','')
+    query=' '.join(query.split())
     if not query:
         return HttpResponse("Please enter your query")
 
