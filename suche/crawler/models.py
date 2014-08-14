@@ -86,28 +86,36 @@ class CrawlData(models.Model):
         try:
             r = http.request('GET', self.url.url)
             if r.status == 200:
-                #see if the rawdata table has row for the current URL. If no, create one
-                rawdata , created = Rawdata.objects.get_or_create(url = self.url)
-                if not created:
-                    rawdata.old_data=rawdata.new_data
-                else:
-                    rawdata.old_data=''
-                    
-                rawdata.new_data = r.data
-                rawdata.save()
-                crawled = True
-                #set timeDiff to new value
-                self.computeTimeDiff(rawdata,0)
-                self.last_crawl = timezone.now()
-                self.next_crawl = timezone.now() + timedelta(seconds=self.timeDiff)
-                
-            else:
-                self.last_crawl = timezone.now()
-                self.computeTimeDiff(rawdata,1)
-                self.next_crawl = timezone.now() + timedelta(seconds=self.timeDiff)
+                # check if the result is a valid html
+                ishtml = False
+                try:
+                    if r.headers['content-type'].startswith('text/html'):
+                        ishtml = True
+                except KeyError:
+                    ishtml = False
 
+                if ishtml:
+                    print("Thsi url is html")
+                    #see if the rawdata table has row for the current URL. If no, create one
+                    rawdata , created = Rawdata.objects.get_or_create(url = self.url)
+                    if not created:
+                        rawdata.old_data=rawdata.new_data
+                    else:
+                        rawdata.old_data=''
+                        rawdata.new_data = r.data
+                        rawdata.save()
+                        crawled = True
+                        #set timeDiff to new value
+                        self.computeTimeDiff(rawdata,0)
+                        self.last_crawl = timezone.now()
+                        self.next_crawl = timezone.now() + timedelta(seconds=self.timeDiff)
         except:
             pass # error occured
+
+        if not crawled:
+            self.last_crawl = timezone.now()
+            self.next_crawl = timezone.now() + timedelta(days = 5) # crawl after 5 days in case of error
+            
         #set next update after 10 days. We can surely set it to more logical pattern like
         # crawl frequently for fast changing websites. But for now, set it fixed to 10 days
         self.save(force_update = True)

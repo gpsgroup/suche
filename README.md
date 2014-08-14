@@ -24,3 +24,17 @@ The current text source for seeding the database is
 
     http://www-01.sil.org/linguistics/wordlists/english/wordlist/wordsEn.txt
 
+You will have to rename above file to big.txt and place it in the scripts directory for seeding.
+
+
+To use the search engine, first of all, you have to crawl the web pages. First of all, add a new URL
+(reddit.com or bbc.com) to admin/indexer/sucheurl/ (sucheurl table). Then, call the crawler from
+
+    http://127.0.0.1:8000/crawler/crawlpage
+
+After the web page is crawled, index it by calling
+
+    http://127.0.0.1:8000/crawler/operatedata
+
+After you index the webpage, it will extract more URLs and you can repeat the
+crawl process as long as you want.

@@ -117,6 +117,9 @@ class HTMLParser:
     def get_content(self):
         return self.content
 
+    def get_title(self):
+        return self.title
+
     def get_word_dict(self):
         return self.words
 
@@ -124,5 +127,5 @@ class HTMLParser:
         return self.wordcount
 
     def get_info(self):
-        return '<br/><br/>'+self.wordinfo
+        return '<br/><br/>'
         

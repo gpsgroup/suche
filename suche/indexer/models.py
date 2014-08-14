@@ -14,6 +14,8 @@ class SucheURL(models.Model):
     url = models.CharField(max_length=200,primary_key=True)
 
     rank = models.FloatField(default = 0.0)
+    title = models.TextField(default = '')
+    body = models.TextField(default = '')
 
     def __str__(self):
         return self.url
@@ -21,7 +23,7 @@ class SucheURL(models.Model):
     # some helper functions for URL
     def isvalid(url):
         '''
-        returns if a URL is valid or not.
+        returns if a URL is valid or not.nnn
         We reject extensions without htm, html and php at all times (like js, css, png, etc)
         Also, during testing time, reject any URLs not in specified domain list. Alos, only http
         protocol is allowed
@@ -98,7 +100,7 @@ class Word(models.Model):
     the HTML document
     '''
     word = models.TextField(max_length = 50)
-    wordcount = models.TextField(default = 0)
+    wordcount = models.IntegerField(default = 0)
     def __str__(self):
         return self.word
 
