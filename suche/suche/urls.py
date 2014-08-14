@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 import frontend.views as frontendview
-
+import pluginServer.views as plSrv
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'suche.views.home', name='home'),
@@ -11,4 +11,6 @@ urlpatterns = patterns('',
     url(r'^search$',frontendview.searchresult, name = 'searchresult'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^crawler/', include('crawler.urls', namespace = 'crawler')),
+    url(r'^plugin/(?P<name>[a-zA-Z0-9_.-]+)/$',plSrv.pluginProcessServer,name='pluginLink'),
+    url(r'^test/$',plSrv.test,name='test'),
 )
