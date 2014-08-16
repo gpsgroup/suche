@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'linguistic',
     'engine',
     'plugin',
+    'authuser',
     
 )
 
