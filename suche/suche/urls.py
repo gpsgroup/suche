@@ -15,4 +15,3 @@ urlpatterns = patterns('',
     url(r'^plugin/(?P<name>[a-zA-Z0-9_.-]+)/$',plSrv.pluginProcessServer,name='pluginLink'),
 	url(r'^auth/', include('authuser.urls', namespace = 'authuser')),
 )
-)
