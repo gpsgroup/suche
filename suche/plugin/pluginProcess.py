@@ -21,5 +21,5 @@ class PluginProcessor:
         req = urllib.request.Request(url)
         response = urllib.request.urlopen(req)
         strOut= response.read()
-        return strOut.decode("utf-8")
+        return strOut
         

@@ -83,7 +83,9 @@ def searchresult(request):
         if parsedquery[0].plugin.showsOp:
             hasPluginOp=True
             q=PluginProcessor(parsedquery[0],parsedquery[1])
-            pluginOp=output=q.dispatchandRead()        
+            pluginOp=q.dispatchandRead()
+            if(pluginOp==b'err'):
+                hasPluginOp=False
     
     template = loader.get_template('frontend/result.html')
 

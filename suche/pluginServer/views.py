@@ -11,7 +11,7 @@ def pluginProcessServer(request,name):
     queriesStr=request.GET.get('queries', '')
     queries=eval(str(queriesStr))
     privateKey=request.GET.get('privateKey', '')
-    '''
+    
     a=name+"("
     for query in queries:
         a=a+'"'+query+'",'
@@ -20,9 +20,8 @@ def pluginProcessServer(request,name):
     z=eval(a)
     
     appPrivateKey=z.getPrivateKey()
-    if(privateKey==appPrivateKey):
-    '''
-    return HttpResponse(queriesStr)
-    #else:
-     #   return HttpResponse('err')
+    if(privateKey==appPrivateKey):    
+        return HttpResponse(str(z.run()))
+    else:
+        return HttpResponse('err')
    

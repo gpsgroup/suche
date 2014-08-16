@@ -15,18 +15,21 @@ class Temperature:
          
     def run(self):
        
-        url='http://api.openweathermap.org/data/2.5/weather?q='+self.city
-        
+        url='http://api.openweathermap.org/data/2.5/weather?q='+self.city        
         req = urllib.request.Request(url)
         response = urllib.request.urlopen(req)
         data=response.read()
         strOut=data.decode("utf-8")
         decodedJson=json.loads(strOut)
+       
         if(decodedJson["cod"]!='404'):            
             temp=decodedJson['main']['temp']
             temp=temp-273.15
-            return str(temp)
+            temp=round(temp,2)
+            op='<div class="resultBox"><div class="col-md-9"><div class="row"><div class="col-md-12"><span class="helvnu">'+str(temp)+' &deg;C</span></div></div><div class="row"><div class="col-md-12">Temperature of '+self.city.title()+','+decodedJson['sys']['country']+'</div></div></div> <div class="col-md-3"></div></div>'
+            return (op)
         else:
             return ('err')
+        
     def getPrivateKey(self):
         return self.privateKey

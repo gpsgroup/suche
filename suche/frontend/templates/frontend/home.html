@@ -86,8 +86,9 @@ $('#search_form').submit(function(event) {
     var vall=$('#search').val();
     if (vall!="" && state==0) {
         //code
-        
-          $( "#searchaa" ).autocomplete ("close");  
+          
+          $( "#searchaa" ).autocomplete ("close");
+          hideAutocomplete();
           $('#logo').animate({
               "width":"300px",
               
@@ -113,7 +114,7 @@ $('#search_form').submit(function(event) {
     }
 
         if (vall!="" && state==1) {
-
+        hideAutocomplete();
         //do the get request
 
             $.get("/search?q="+encodeURIComponent(vall),function(op){              
@@ -248,8 +249,9 @@ if(autoState!=1)
                 e.preventDefault();
                 var text=$('.autoRow').eq(index).text();
                 $("#search").val(text);
-		index=-1;
-                hideAutocomplete();   
+		 hideAutocomplete();   
+                index=-1;
+               
              }
                 
             }
