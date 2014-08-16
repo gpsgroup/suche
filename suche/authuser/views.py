@@ -93,18 +93,19 @@ def signout(request):
 
 
 def userinfo(request):
-    ''' This displays  the login page'''
+    ''' This displays  the settings page'''
+
     #first of all, check if the user is already logged in
     if request.user.is_authenticated():
         pass
-   
-    error =''    
-            
-    template = loader.get_template('authuser/usrinfo.html')
+    else
+        return HttpResponseRedirect(reverse('homepage')) 
 
+            
+
+    template = loader.get_template('authuser/usrinfo.html')
     context = RequestContext(request, {
-        'title': "Suche:Sign In",
-        
+        'title': "Suche:Sign In",        
         'user' : request.user
     })
     return HttpResponse(template.render(context))

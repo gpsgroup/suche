@@ -4,17 +4,17 @@
 {% block body %}
     <div class="container">         
 
-      {% if user.is_authenticated %}
-      <img  src="{% static 'images/user_on.png' %}" style="height:40px; width:40px;" />
-      <strong> Hi, {{ user }}!</strong>
+
+      
+      <img  src="{% static 'images/user_round.png' %}" style="height:40px; width:40px;" />
+      <strong> Hi, {{ user }}!</strong>      
+      <a class="btn btn-primary" href="{% url 'homepage' %}">Homepage</a>      
       <a class="btn btn-primary" href="{% url 'authuser:signout' %}">Logout</a>
-      <a class="btn btn-primary" href="{% url 'authuser:signout' %}">Settings</a>      
-      {% else %}
-      <img  src="{% static 'images/user_on.png' %}" style="height:40px; width:40px;" />
-      <strong> Hi, NewUser! </strong>
-      <a class="btn btn-primary" href="{% url 'authuser:signin' %}">Login</a>  
-      <a class="btn btn-primary" href="{% url 'authuser:signup' %}">Signup</a>  
-      {% endif %}
+      <hr/>
+      <h2 class=""> This is the settings page! </h2>
+      <a class="btn btn-primary" href="{% url 'homepage' %}">Plugins</a>
+      <a class="btn btn-primary" href="{% url 'homepage' %}">History</a>
+     
 
 
 

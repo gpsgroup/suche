@@ -16,7 +16,7 @@
           <img  src="{% static 'images/user_round.png' %}" style="height:40px; width:40px;" />
           <strong> Hi, {{ user }} ! </strong>
           <a class="btn btn-primary" href="{% url 'authuser:signout' %}">Logout</a>
-          <a class="btn btn-primary" href="{% url 'homepage' %}">Settings</a>      
+          <a class="btn btn-primary" href="{% url 'authuser:userinfo' %}">Settings</a>      
         {% else %}
           <img  src="{% static 'images/user_round.png' %}" style="height:40px; width:40px;" />
           <strong> Hi, NewUser ! </strong>
