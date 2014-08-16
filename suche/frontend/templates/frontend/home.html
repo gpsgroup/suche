@@ -9,33 +9,66 @@
 	height:25px;
     }
 </style>
+    
+    <div class="container"><!--user authentication part -->
+      <div class="pull-right">
+        {% if user.is_authenticated %}
+          <img  src="{% static 'images/user_round.png' %}" style="height:40px; width:40px;" />
+          <strong> Hi, {{ user }} ! </strong>
+          <a class="btn btn-primary" href="{% url 'authuser:signout' %}">Logout</a>
+          <a class="btn btn-primary" href="{% url 'homepage' %}">Settings</a>      
+        {% else %}
+          <img  src="{% static 'images/user_round.png' %}" style="height:40px; width:40px;" />
+          <strong> Hi, NewUser ! </strong>
+          <a class="btn btn-primary" href="{% url 'authuser:signin' %}">Login</a>  
+          <a class="btn btn-primary" href="{% url 'authuser:signup' %}">Signup</a>  
+        {% endif %}       
+        </div>
+    </div><!--user authentication part -->
+
 
     <div class="row" style="padding-bottom: 20px" id="bg">
         <div class="container text-center">
-        <!--logo -->
+        
             <div class="row text-center">
-             
+                <!--logo -->
                 <div class="row text-center" id="bg">
                 <div class="col-md-12 text-center" id="logo">
-                <a href="{% url 'homepage' %}"><img  src="{% static 'images/logo.png' %}" class="img-responsive" style="margin: 0 auto;" id="logo1"/></a>
+                  <a href="{% url 'homepage' %}"><img  src="{% static 'images/logo.png' %}" class="img-responsive" style="margin: 0 auto;" id="logo1"/></a>
                 </div>
                 </div>
+                <!--logo -->
                 <form class="row" id="search_form" action="/" method="GET">
                     <div class="input-group">
                       <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
                       <input type="text" class="form-control" placeholder="Search Query" id="search" name = "q" style="height:50px"  autocomplete="off"/>
                       <div class="input-group-btn"><input type="submit" value="Search" class="btn btn-primary" style="height:50px; width:100px" id="submitBtn"></div>
                     </div>
-
                 </form>
-  <div id="box" style="display: block;left:150px;position: absolute;border-style: solid;float:right;z-index: 10000;border-width: thin;border-color: #eee;box-shadow: 3px 3px 3px #eee;background-color: #fff">
-                       
-                        
-                    </div>
-{% if query %}<br/><br/><p>Showing result for &quot;<strong>{{ correctedquery }} </strong> &quot;{% if correctedquery != query  %} Show instead for &quot;<strong> {{ query }} {% endif %}</strong>&quot;</p><br>Parsed:<b>{{parsedquery}}</b>{% endif %}
+                <!-- autocomplete box -->
+                <div id="box" 
+                      style="display: block;
+                      left:150px;position: absolute;
+                      border-style: solid;
+                      float:right;
+                      z-index: 10000;
+                      border-width: thin;
+                      border-color: #eee;
+                      box-shadow: 3px 3px 3px #eee;
+                      background-color: #fff;"> 
+                </div>
+
+
+                {% if query %}
+                  <br/><br/><p>Showing result for &quot;<strong>{{ correctedquery }} </strong> &quot;
+                  {% if correctedquery != query  %} 
+                    Show instead for &quot;<strong> {{ query }} 
+                  {% endif %}
+                  </strong>&quot;</p><br>Parsed:<b>{{parsedquery}}</b>
+                {% endif %}
 
             </div>
-    </div>
+          </div>
     </div>
                   
     

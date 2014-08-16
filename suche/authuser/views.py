@@ -89,4 +89,22 @@ def signup(request):
 def signout(request):
     logout(request)
     messages.success(request, 'Successfully Signed Out')
-    return HttpResponseRedirect(reverse('authuser:signin'))
+    return HttpResponseRedirect(reverse('homepage'))
+
+
+def userinfo(request):
+    ''' This displays  the login page'''
+    #first of all, check if the user is already logged in
+    if request.user.is_authenticated():
+        pass
+   
+    error =''    
+            
+    template = loader.get_template('authuser/usrinfo.html')
+
+    context = RequestContext(request, {
+        'title': "Suche:Sign In",
+        
+        'user' : request.user
+    })
+    return HttpResponse(template.render(context))

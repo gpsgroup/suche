@@ -32,6 +32,7 @@ def home(request):
         'title': "Suche",
         'query' : query,
         'correctedquery' : correctedquery,
+        'user' : request.user,
         
     })
     return HttpResponse(template.render(context))
