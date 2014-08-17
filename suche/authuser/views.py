@@ -98,7 +98,7 @@ def userinfo(request):
     #first of all, check if the user is already logged in
     if request.user.is_authenticated():
         pass
-    else
+    else:
         return HttpResponseRedirect(reverse('homepage')) 
 
             
