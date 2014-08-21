@@ -32,6 +32,7 @@ def home(request):
         'title': "Suche",
         'query' : query,
         'correctedquery' : correctedquery,
+        'user' : request.user,
         
     })
     return HttpResponse(template.render(context))
@@ -63,6 +64,7 @@ def searchresult(request):
       the url is /searchresult
     '''
     query = request.REQUEST.get('q','')
+    query=' '.join(query.split())
     if not query:
         return HttpResponse("Please enter your query")
 
@@ -82,7 +84,9 @@ def searchresult(request):
         if parsedquery[0].plugin.showsOp:
             hasPluginOp=True
             q=PluginProcessor(parsedquery[0],parsedquery[1])
-            pluginOp=output=q.dispatchandRead()        
+            pluginOp=q.dispatchandRead()
+            if(pluginOp==b'err'):
+                hasPluginOp=False
     
     template = loader.get_template('frontend/result.html')
 

@@ -5,6 +5,7 @@ import math
 class NLGrammar:
     def __init__(self,request):
         self.query=request
+        self.queryWordList=' '.join(self.query.split())
         self.queryWordList=self.query.split()
         self.queryWordList=[x for x in self.queryWordList if x]
 

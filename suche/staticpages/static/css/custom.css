@@ -1,0 +1,21 @@
+@font-face {
+font-family: 'helvnue';
+src: url("/static/fonts/HelveticaNeue-Thin.otf") format("opentype");
+
+}
+.resultBox
+{
+    display: block;
+    height:140px !important;
+    background-color:#EBF5FF;
+    border-radius:10px;
+    
+    -webkit-box-shadow: 4px 4px 9px 0px rgba(50, 50, 50, 0.31);
+    -moz-box-shadow:    4px 4px 9px 0px rgba(50, 50, 50, 0.31);
+    box-shadow:         4px 4px 9px 0px rgba(50, 50, 50, 0.31);
+}
+.helvnu{
+    font-family: helvnue;
+    font-size: 70px;
+    color: #999999;
+}

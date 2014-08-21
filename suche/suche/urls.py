@@ -13,5 +13,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^crawler/', include('crawler.urls', namespace = 'crawler')),
     url(r'^plugin/(?P<name>[a-zA-Z0-9_.-]+)/$',plSrv.pluginProcessServer,name='pluginLink'),
-    url(r'^test/$',plSrv.test,name='test'),
+	url(r'^auth/', include('authuser.urls', namespace = 'authuser')),
 )

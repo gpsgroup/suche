@@ -1,0 +1,43 @@
+{% extends "pages/__base.html" %}
+{% load staticfiles %}
+
+{% block body %}
+    <div class="container">
+
+      <form class="form-signin" role="form" method="post" action="{{ request.get_full_path }}">
+      {% csrf_token %}
+
+        <h2 class="form-signin-heading">{{ title }}</h2>
+         <div class="login-wrap">
+
+
+         {% if messages %}
+        <div class="alert alert-success fade in">
+          <button data-dismiss="alert" class="close close-sm" type="button">
+            <i class="icon-remove"></i>
+          </button>
+          {% for message in messages %}
+                {{ message }}<br/>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if error %}
+          <div class="alert alert-block alert-danger fade in">
+            <button data-dismiss="alert" class="close close-sm" type="button">
+              <i class="icon-remove"></i>
+            </button>         
+           {{ error }}
+           </div>  
+         {% endif %}
+
+        <input type="text" class="form-control" placeholder="User name" name="username" required autofocus>
+        <input type="email" class="form-control" placeholder="email" name="email" required>        
+        <input type="password" class="form-control" placeholder="Password" name="password" required>
+        <input type="password" class="form-control" placeholder="Password Confirm" name="passwordc" required>        
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+        </div>
+      </form>
+
+    </div> <!-- /container -->
+{% endblock body %}
