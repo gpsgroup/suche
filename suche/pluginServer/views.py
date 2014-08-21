@@ -5,6 +5,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django import forms
 from django.contrib import messages
 from pluginServer.plugins import *
+from pluginServer.plugins import Dictionary
+
 # Create your views here.
 def pluginProcessServer(request,name):
    

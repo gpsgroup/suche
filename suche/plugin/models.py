@@ -9,6 +9,9 @@ class Grammar(models.Model):
     grammar=models.CharField(max_length=1024)
     action=models.CharField(max_length=1024)
 
+    def __str__(self):
+        return self.action
+
 
 '''
    model for plugin class
@@ -26,3 +29,6 @@ class Plugin(models.Model):
     privateKey=models.CharField(max_length=512,default=randomGen)
     pluginKey=models.CharField(max_length=512, default=randomGen)
     updated=models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name

@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'engine',
     'plugin',
     'authuser',
+    'pluginServer',
     
 )
 
