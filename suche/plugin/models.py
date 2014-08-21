@@ -26,7 +26,3 @@ class Plugin(models.Model):
     privateKey=models.CharField(max_length=512,default=randomGen)
     pluginKey=models.CharField(max_length=512, default=randomGen)
     updated=models.DateTimeField(auto_now_add=True)
-    
-    
-    
-    

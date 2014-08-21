@@ -9,7 +9,7 @@ import json
 class Temperature:
     
     def __init__(self,city,privateKey):
-        self.privateKey="20225241060860605969932890806359988880978651325956889702404168302241179833249" # keep this in app
+        self.privateKey="52364956476270096215486697602522302207783308911809137141918051922786023308176" # keep this in app
         self.city=city
         self.privateKeySent=privateKey
          
