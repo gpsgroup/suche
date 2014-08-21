@@ -36,3 +36,10 @@ After the web page is crawled, index it by calling
 
 After you index the webpage, it will extract more URLs and you can repeat the
 crawl process as long as you want.
+
+
+For dictionary, download http://sourceforge.net/projects/suchefiles/files/dictionary.zip/download, rename the extracted file
+to dictionary.txt and place it in the scripts folder. Then, do
+
+   ./dictseed.sh
+
