@@ -10,24 +10,27 @@
     }
 </style>
     
-    <div class="container"><!--user authentication part -->
-      <div class="pull-right">
+    <div class="navbar navbar-static-top navbar-inverse" style="margin:0">
+    <div class="navbar-inner" style="color:#ffffff">
+         <br>
         {% if user.is_authenticated %}
-          <img  src="{% static 'images/user_round.png' %}" style="height:40px; width:40px;" />
-          <strong> Hi, {{ user }} ! </strong>
-          <a class="btn btn-primary" href="{% url 'authuser:signout' %}">Logout</a>
-          <a class="btn btn-primary" href="{% url 'authuser:userinfo' %}">Settings</a>      
+         &nbsp;&nbsp  <strong> Hi, {{ user }} ! </strong>
+         <div class="pull-right">
+         
+          <a style="color:#ffffff"  href="{% url 'authuser:signout' %}">Logout</a> | <a style="color:#ffffff"  href="{% url 'authuser:userinfo' %}">Settings</a>
+         </div>
         {% else %}
-          <img  src="{% static 'images/user_round.png' %}" style="height:40px; width:40px;" />
-          <strong> Hi, NewUser ! </strong>
-          <a class="btn btn-primary" href="{% url 'authuser:signin' %}">Login</a>  
-          <a class="btn btn-primary" href="{% url 'authuser:signup' %}">Signup</a>  
+         <div class="pull-right">
+          <br>
+          <a style="color:#ffffff" href="{% url 'authuser:signin' %}">Login</a> | <a style="color:#ffffff" href="{% url 'authuser:signup' %}">Signup</a>
+          </div>
         {% endif %}       
-        </div>
+        
+    </div>
     </div><!--user authentication part -->
 
 
-    <div class="row" style="padding-bottom: 20px" id="bg">
+    <div class="row" style="padding-bottom: 20px;top:-20px" id="bg">
         <div class="container text-center">
         
             <div class="row text-center">
