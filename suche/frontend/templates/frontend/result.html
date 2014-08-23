@@ -1,13 +1,12 @@
-
-<span style="font-family:Verdana, Geneva, sans-serif; font-size:14px;font-weight:lighter">
-  Searching for <strong> {{ correctedquery }}</strong>. {% if corrected %} Search instead for<strong> {{ query }} </strong>{% endif %}<br/>
-  {% if hasresult %}
-  Showing 1-{{ resultcount }} of about {{ totalresults }} results<br/>
-  {% endif %}
-</span>
-<hr>
-{% if hasPluginOp %}
-<div class="row">
+  <span style="font-family:Verdana, Geneva, sans-serif; font-size:14px;font-weight:lighter">
+    Searching for <strong> {{ correctedquery }}</strong>. {% if corrected %} Search instead for<strong><a id="searchinstd" href=""> {{ query }}</a> </strong>{% endif %}<br/>
+    {% if hasresult %}
+    Showing 1-{{ resultcount }} of about {{ totalresults }} results<br/>
+    {% endif %}
+  </span>
+  <hr>
+  {% if hasPluginOp %}
+  <div class="row">
   <div class="col-md-12">
     
     {% autoescape off %}

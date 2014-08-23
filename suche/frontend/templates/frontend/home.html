@@ -65,9 +65,9 @@
                 {% if query %}
                   <br/><br/><p>Showing result for &quot;<strong>{{ correctedquery }} </strong> &quot;
                   {% if correctedquery != query  %} 
-                    Show instead for &quot;<strong> {{ query }} 
+                    Show instead for &quot;<strong><a id="searchinstd" href="google.com">{{ query }} 
                   {% endif %}
-                  </strong>&quot;</p><br>Parsed:<b>{{parsedquery}}</b>
+                  </a> </strong>&quot;</p><br>Parsed:<b>{{parsedquery}}</b>
                 {% endif %}
 
             </div>
@@ -93,6 +93,21 @@ $(function(){
      {
         startcompletion();
      }
+   });
+   //pressing of search instead for
+   
+   $('body').on("click",'#searchinstd',function(e){
+
+        e.preventDefault();
+        //send request
+         $.get("/search?q="+encodeURIComponent(vall)+"&force=1",function(op){              
+                   $("#searchResult").fadeOut("fast",function()
+                    {
+                            
+                        $("#searchResult").html(op).fadeIn("fast");
+                    });              
+                });
+    
    });
 });
 
