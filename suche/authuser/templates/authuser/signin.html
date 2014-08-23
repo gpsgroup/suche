@@ -1,9 +1,9 @@
 {% extends "pages/__base.html" %}
 
 {% load staticfiles %}
-<link href="{% static 'css/signin.css' %}" rel="stylesheet">
+
 {% block body %}
-    <div class="container">
+    <div class="container" style="width:30%;margin-top:10%;background-color: #eee;height:300px;border-radius:10px ">
 
       <form class="form-signin" role="form" method="post" action="{{ request.get_full_path }}">
       {% csrf_token %}
