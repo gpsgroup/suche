@@ -1,12 +1,18 @@
+from crawler.models import CrawlData,Rawdata
 import time
-import urllib.parse
-import urllib.request
+import datetime
 
 def run():
-    time.sleep(1)
-    url='127.0.0.1:8000/crawler/crawlpage'
-    req = urllib.request.Request(url)
-    response = urllib.request.urlopen(req)
-    strOut= response.read()
-    print(strOut.decode("utf-8"))
-    
+    while True:
+        try:
+            crawldata = CrawlData.objects.filter(next_crawl__lte = datetime.datetime.now())[0] # get a URL that is expected to be crawl in the past or at the current instance
+        except IndexError:
+            print("All URLs are up to date")
+            
+        # try to get the web page from URL
+        print(crawldata.url.url+" is not currently crawled. Crawling it...")
+        
+        if not crawldata.crawl():
+            print('Error  while retriving the web page')
+        time.sleep(1) # do some rest 
+        
