@@ -102,13 +102,14 @@ class CrawlData(models.Model):
                         rawdata.old_data=rawdata.new_data
                     else:
                         rawdata.old_data=''
-                        rawdata.new_data = r.data
-                        rawdata.save()
-                        crawled = True
-                        #set timeDiff to new value
-                        self.computeTimeDiff(rawdata,0)
-                        self.last_crawl = timezone.now()
-                        self.next_crawl = timezone.now() + timedelta(seconds=self.timeDiff)
+                    rawdata.new_data = r.data
+                    rawdata.save()
+                    #set timeDiff to new value
+                    self.computeTimeDiff(rawdata,0)
+                    self.last_crawl = timezone.now()
+                    self.next_crawl = timezone.now() + timedelta(seconds=self.timeDiff)
+                    crawled = True
+
         except:
             pass # error occured
 

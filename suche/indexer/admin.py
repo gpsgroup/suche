@@ -3,6 +3,8 @@ from indexer.models import SucheURL,Link,Word,Result
 
 class SucheURLAdmin(admin.ModelAdmin):
     list_display = ['url']
+    search_fields = ['url']
+
 
 class LinkAdmin(admin.ModelAdmin):
     pass
