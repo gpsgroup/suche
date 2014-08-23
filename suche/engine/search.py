@@ -67,6 +67,9 @@ class SucheSearch:
                         
                         result.title = res.url.title
                         self.results.append(result)
+                    else:
+                        #url already exist...increase it's URL point
+                        pass
             except Word.DoesNotExist:
                 # do nothing
                 pass
