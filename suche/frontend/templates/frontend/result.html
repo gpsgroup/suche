@@ -1,56 +1,60 @@
 
-  <span style="font-family:Verdana, Geneva, sans-serif; font-size:14px;font-weight:lighter">
-    Searching for <strong> {{ correctedquery }}</strong>. {% if corrected %} Search instead for<strong> {{ query }} </strong>{% endif %}<br/>
-    {% if hasresult %}
-    Showing 1-{{ resultcount }} of about {{ totalresults }} results<br/>
-    {% endif %}
-  </span>
-  <hr>
-  {% if hasPluginOp %}
-  <div class="row">
+<span style="font-family:Verdana, Geneva, sans-serif; font-size:14px;font-weight:lighter">
+  Searching for <strong> {{ correctedquery }}</strong>. {% if corrected %} Search instead for<strong> {{ query }} </strong>{% endif %}<br/>
+  {% if hasresult %}
+  Showing 1-{{ resultcount }} of about {{ totalresults }} results<br/>
+  {% endif %}
+</span>
+<hr>
+{% if hasPluginOp %}
+<div class="row">
   <div class="col-md-12">
     
     {% autoescape off %}
     {{pluginOp}}
     {% endautoescape %}
-  </div></div>
-  {%endif%}
-  <br>
-  {% if hasresult %}
-  <div class="row">
+</div></div>
+{%endif%}
+<br>
+{% if hasresult %}
+<div class="row">
   {% for result in results %}
   
   
-    <div>
-      <a href="{{ result.fullurl }}" style="text-decoration:none" target="_blank">
-        <span style="font-family:Arial, Helvetica, sans-serif; color:#0a5c83; font-weight:bold">
-          {{ result.title }}
-        </span>
-      </a>
-    </div>
-
-
-    <div>
-      <span style="font-family:Arial, Helvetica, sans-serif; color:#070; font-size:12px">
-        {{ result.url }}
+  <div>
+    <a href="{{ result.fullurl }}" style="text-decoration:none" target="_blank">
+      <span style="font-family:Arial, Helvetica, sans-serif; color:#0a5c83;">
+        {% autoescape off %}
+        {{ result.highlightedtitle }}
+        {% endautoescape %}
       </span>
-    </div>
-
-    <div>
-      <span style="font-family:Verdana, Geneva, sans-serif; font-size:14px;font-weight:lighter">
-        {{ result.body }}
-      </span>
-    </div>
-
-    <div>
-      <span style="font-family:Arial, Helvetica, sans-serif; color:#333; font-size:12px">
-        <a href="{% url 'websitecache' %}?page={{result.fullurl | urlencode }}&query={{correctedquery | urlencode}}" target="_blank">Cached Page</a>
-      </span>
-    </div>
-
-      
-
+    </a>
   </div>
+
+
+  <div>
+    <span style="font-family:Arial, Helvetica, sans-serif; color:#070; font-size:12px">
+      {% autoescape off %}
+      {{ result.highlightedurl }}
+      {% endautoescape %}
+    </span>
+  </div>
+
+  <div>
+    <span style="font-family:Verdana, Geneva, sans-serif; font-size:14px;font-weight:lighter">
+      {{ result.body }}
+    </span>
+  </div>
+
+  <div>
+    <span style="font-family:Arial, Helvetica, sans-serif; color:#333; font-size:12px">
+      <a href="{% url 'websitecache' %}?page={{result.fullurl | urlencode }}&query={{correctedquery | urlencode}}" target="_blank">Cached Page</a>
+    </span>
+  </div>
+
+  
+
+</div>
 </br>
 {% endfor %}
 {% else %}

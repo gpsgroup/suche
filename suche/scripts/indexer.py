@@ -6,6 +6,7 @@ def run():
     while True:
         try:
             rawdata = Rawdata.objects.filter(operated = False)[0] # get data that has not been operated on yet
+            print("Indexing "+rawdata.url.url)
             indxr = Indexer()
             indxr.set_raw(rawdata)
             message = indxr.operate()

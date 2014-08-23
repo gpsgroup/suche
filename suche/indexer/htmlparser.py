@@ -50,7 +50,9 @@ class HTMLParser:
         for char in ' '.join(visible_texts):
             if char in validsymbols:
                 self.content += char
-    
+            else:
+                self.content += ' '
+        self.content = re.sub(' +',' ',self.content)
         #secondly , make a list of (word,count) tuples
         sentences = self.content.split('.')
 

@@ -15,6 +15,7 @@ class SucheSearch:
         register determines if the engine should register query in query handler
         '''
         self.query = query
+
         if correct:
             self.correctedquery = QueryHandler.correct_query(query)
         else:
@@ -56,6 +57,7 @@ class SucheSearch:
                             pass
                         
                         result = SucheResult()
+                        result.setQuery(self.correctedquery)
                         result.fullurl = res.url.url
                         result.url = res.url.url if len(res.url.url) < 50 else res.url.url[:49]+"..."
                         result.urlpoint = res.urlpoint

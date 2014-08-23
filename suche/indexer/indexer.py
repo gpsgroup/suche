@@ -121,6 +121,7 @@ class Indexer:
             pass #do nothing in case of error
         self.raw.url.title = parser.get_title()
         self.raw.url.body = parser.get_content()
+
         self.raw.url.save()
         return  parser.get_info()
 
