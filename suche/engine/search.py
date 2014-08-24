@@ -41,6 +41,7 @@ class SucheSearch:
         previousurls = []
         #search for the words in the word list
         totalresult = 0
+        shownresult = 0
         for word in words:
             try:
                 wordobj = Word.objects.get(word = word)
@@ -48,7 +49,8 @@ class SucheSearch:
 
                 for res in results:
                     totalresult += 1
-                    if not res.url.url in previousurls:
+                    if not res.url.url in previousurls and shownresult < 100:
+                        shownresult += 1
                         previousurls.append(res.url.url)
 
                         try:

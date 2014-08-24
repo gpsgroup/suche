@@ -72,7 +72,7 @@ def searchresult(request):
     correct = True
 
     try:
-        if request.GET['force'] == 1:
+        if request.GET['force'] == '1':
             correct = False
     except:
         pass

@@ -38,7 +38,23 @@ class SucheResult:
         return url
 
     def highlightedbody(self):
-        bodyportion =  self.body[:128]
+        firstoccur = -1
+        for key in self.querylist:
+            if self.body.find(key) > 0:
+                firstoccur = self.body.find(key)
+                break
+        if firstoccur > -1:
+            exstart = firstoccur - 128
+            if exstart < 0:
+                exstart = 0
+            exend = exstart + 250
+            if exend > len(self.body)-1:
+                exend = len(self.body)-1
+            bodyportion = self.body[exstart:exend]
+    
+        else:
+            bodyportion =  self.body[:128]
+
         for key in self.querylist:
             bodyportion = bodyportion.lower().replace(key,"<strong>"+key+"</strong>")
         return bodyportion
