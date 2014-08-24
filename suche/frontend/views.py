@@ -69,7 +69,14 @@ def searchresult(request):
         return HttpResponse("Please enter your query")
 
     search = SucheSearch()
-    search.SetQuery(query)
+    correct = True
+
+    try:
+        if request.GET['force'] == 1:
+            correct = False
+    except:
+        pass
+    search.SetQuery(query,correct)
     search.search()
     '''query
     parsing
@@ -96,7 +103,7 @@ def searchresult(request):
         'corrected' : search.isQueryCorrected,
         'results':search.results,
         'resultcount' : len(search.results),
-        'totalresults': 19000,
+        'totalresults': search.totalresult,
         'hasresult' : True if len(search.results) > 0 else False,
         'hasPluginOp':hasPluginOp,
         'pluginOp':pluginOp,

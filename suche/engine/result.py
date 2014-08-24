@@ -37,3 +37,10 @@ class SucheResult:
             url = url.replace(key,"<strong>"+key+"</strong>")
         return url
 
+    def highlightedbody(self):
+        bodyportion =  self.body[:128]
+        for key in self.querylist:
+            bodyportion = bodyportion.lower().replace(key,"<strong>"+key+"</strong>")
+        return bodyportion
+
+

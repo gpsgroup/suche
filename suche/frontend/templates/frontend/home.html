@@ -100,7 +100,7 @@ $(function(){
 
         e.preventDefault();
         //send request
-         $.get("/search?q="+encodeURIComponent(vall)+"&force=1",function(op){              
+         $.get("/search?q="+encodeURIComponent($('#search').val())+"&force=1",function(op){              
                    $("#searchResult").fadeOut("fast",function()
                     {
                             

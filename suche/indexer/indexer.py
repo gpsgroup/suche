@@ -38,8 +38,9 @@ class Indexer:
 
         filteredurls = []
         for url,text in parser.get_links():
-            if SucheURL.isvalid(url):
-                filteredurls.append((url,text))
+            if len(url) < 200:
+                if SucheURL.isvalid(url):
+                    filteredurls.append((url,text))
 
         for url,text in filteredurls:
             urls.append(text+"-"+url)

@@ -41,7 +41,9 @@
 
   <div>
     <span style="font-family:Verdana, Geneva, sans-serif; font-size:14px;font-weight:lighter">
-      {{ result.body }}
+      {% autoescape off %}
+      {{ result.highlightedbody }}
+      {% endautoescape %}
     </span>
   </div>
 

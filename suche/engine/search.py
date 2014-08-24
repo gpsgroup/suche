@@ -40,12 +40,14 @@ class SucheSearch:
 
         previousurls = []
         #search for the words in the word list
+        totalresult = 0
         for word in words:
             try:
                 wordobj = Word.objects.get(word = word)
                 results = Result.objects.filter(word = wordobj)
 
                 for res in results:
+                    totalresult += 1
                     if not res.url.url in previousurls:
                         previousurls.append(res.url.url)
 
@@ -62,7 +64,7 @@ class SucheSearch:
                         result.url = res.url.url if len(res.url.url) < 50 else res.url.url[:49]+"..."
                         result.urlpoint = res.urlpoint
                         result.fullurl = res.url.url
-                        result.body = "Thsi is the body"
+                        result.body = res.url.body
 
                         # fullbody contains the complete HTML of the page
                         
@@ -76,6 +78,7 @@ class SucheSearch:
                 # do nothing
                 pass
         #now arrange the result according to ranking
+        self.totalresult = totalresult
         self.results.sort(key=lambda x: x.urlpoint, reverse = True)
         
         
