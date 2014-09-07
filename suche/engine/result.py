@@ -29,12 +29,14 @@ class SucheResult:
     def highlightedtitle(self):
         title = self.title
         for key in self.querylist:
-            title = title.replace(key,"<strong>"+key+"</strong>")
+            if len(key) > 2:
+                title = title.replace(key,"<strong>"+key+"</strong>")
         return title
     def highlightedurl(self):
         url = self.url
         for key in self.querylist:
-            url = url.replace(key,"<strong>"+key+"</strong>")
+            if len(key) > 2:
+                url = url.replace(key,"<strong>"+key+"</strong>")
         return url
 
     def highlightedbody(self):
@@ -45,9 +47,13 @@ class SucheResult:
                 break
         if firstoccur > -1:
             exstart = firstoccur - 128
+            while exstart > 0 and self.body[exstart] != " ":
+                exstart -= 1
             if exstart < 0:
                 exstart = 0
             exend = exstart + 250
+            while exend < len(self.body)-1 and self.body[exend] != " ":
+                exend += 1
             if exend > len(self.body)-1:
                 exend = len(self.body)-1
             bodyportion = self.body[exstart:exend]
@@ -56,7 +62,8 @@ class SucheResult:
             bodyportion =  self.body[:128]
 
         for key in self.querylist:
-            bodyportion = bodyportion.lower().replace(key,"<strong>"+key+"</strong>")
-        return bodyportion
+            if len(key) > 2:
+                bodyportion = bodyportion.lower().replace(key,"<strong>"+key+"</strong>")
+        return " ..."+bodyportion+" ..."
 
 

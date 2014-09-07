@@ -6,7 +6,7 @@ src: url("/static/fonts/HelveticaNeue-Thin.otf") format("opentype");
 .resultBox
 {
     display: block;
-    height:400px !important;
+    height:auto !important;
     background-color:#EBF5FF;
     border-radius:10px;
     

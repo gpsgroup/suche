@@ -37,21 +37,22 @@ class SucheSearch:
         words = self.correctedquery.split(' ')
         
         self.results = []
-
-        previousurls = []
+        dictresult = {}
+        
         #search for the words in the word list
         totalresult = 0
         shownresult = 0
         for word in words:
+            if len(word) <= 2:
+                continue
             try:
                 wordobj = Word.objects.get(word = word)
                 results = Result.objects.filter(word = wordobj)
 
                 for res in results:
                     totalresult += 1
-                    if not res.url.url in previousurls and shownresult < 100:
+                    if not res.url.url in dictresult.keys() or shownresult < 100:
                         shownresult += 1
-                        previousurls.append(res.url.url)
 
                         try:
                             rawdata = Rawdata.get(url = res.url)
@@ -72,13 +73,18 @@ class SucheSearch:
                         
                         
                         result.title = res.url.title
-                        self.results.append(result)
+
+                        dictresult[res.url.url] = result
                     else:
-                        #url already exist...increase it's URL point
-                        pass
+                        if res.url.url in dictresult.keys():
+                            dictresult[res.url.url].urlpoint += 5
+                            #dictresult[res.url.url].title += "MODIFIED!"
+
             except Word.DoesNotExist:
                 # do nothing
                 pass
+        for url in dictresult.keys():
+            self.results.append(dictresult[url])
         #now arrange the result according to ranking
         self.totalresult = totalresult
         self.results.sort(key=lambda x: x.urlpoint, reverse = True)

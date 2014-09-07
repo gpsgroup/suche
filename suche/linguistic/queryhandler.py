@@ -80,16 +80,41 @@ class QueryHandler:
         '''
         Get the auto completions for the query
         '''
-        completions = []
+        completions = set()
         # search for the query in cache
         caches = CompletionCache.objects.filter(query__startswith = query)
         for cache in caches:
             if len(completions) < 3:
-                completions.append(cache.query)
+                completions.add(cache.query)
+        if len(completions) < 5: #if less than 5 result from the cache
+            words = query.split(' ')
+            if len(words) >= 2:
+                prevwords = words[:-1]
+                lastword = words[-1]
+
+                lastwordcompletions = BiGram.objects.filter(word1 = prevwords[-1],word2__startswith = lastword).order_by("count")
+                wordalternatives = set()
+                for plastword in lastwordcompletions:
+                    wordalternatives.add(plastword.word2)
+                if len(wordalternatives) > 0:
+                    for wordalternative in wordalternatives:
+                        completions.add(' '.join(prevwords)+" "+wordalternative+'.')b
+                        if len(completions) > 5:
+                            break
+                #completions.append(' '.join(prevwords))
+                #completions.append(lastword)
+        return list(completions)
+
         return completions
     def process_data():
         '''
         process_data will process the 2gram and 3gram data
         to yield perplexity for the words
         '''
+        for unigram in Word.objects.all():
+            unigram.update()
+        for bigram in BiGram.objects.all():
+            bigram.update()
+        for trigram in TriGram.objects.all():
+            trigram.update()
         pass

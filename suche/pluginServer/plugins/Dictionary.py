@@ -20,7 +20,7 @@ class Dictionary:
         except Wordmeaning.DoesNotExist:
             return ''
         meaning = '<br/>'.join(word.meaning.split('\n'))
-        op='<div class="resultBox"><div class="col-md-9"><div class="row"><div class="col-md-12"><span class="helvnu">'+self.word.title()+'</span></div></div><div class="row"><div class="col-md-12">'+meaning+'</div></div></div> <div class="col-md-3"></div></div>'
+        op='<div class="resultBox" style="height:auto;"><div class="col-md-9"><div class="row"><div class="col-md-12"><span class="helvnu">'+self.word.title()+'</span></div></div><div class="row"><div class="col-md-12">'+meaning+'</div></div></div> <div class="col-md-3"></div></div>'
         return op
         
     def getPrivateKey(self):
